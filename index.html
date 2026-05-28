@@ -6,577 +6,142 @@
 <title>ILIAS.MA — GENUARY 2026</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=Share+Tech+Mono&display=swap');
-
-:root {
-  --green: #00ff41;
-  --pink: #ff00ff;
-  --cyan: #00ffff;
-  --orange: #ff6600;
-  --bg: #050505;
-  --bg2: #0a0a0a;
-  --border: #1a1a1a;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  background: var(--bg);
-  color: #ccc;
-  font-family: 'Space Mono', monospace;
-  overflow-x: hidden;
-  cursor: crosshair;
-}
-
-/* ===== SCANLINE OVERLAY ===== */
-body::after {
-  content: '';
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(0,255,65,0.015) 2px,
-    rgba(0,255,65,0.015) 4px
-  );
-  pointer-events: none;
-  z-index: 9999;
-}
-
-/* ===== HEADER ===== */
-header {
-  border-bottom: 1px solid var(--border);
-  padding: 1.5rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: sticky;
-  top: 0;
-  background: rgba(5,5,5,0.95);
-  backdrop-filter: blur(4px);
-  z-index: 100;
-}
-
-.logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 2rem;
-  color: var(--green);
-  text-shadow: 0 0 20px var(--green), 2px 0 var(--pink);
-  letter-spacing: 4px;
-  animation: glitch 4s infinite;
-}
-
-@keyframes glitch {
-  0%, 90%, 100% { text-shadow: 0 0 20px var(--green), 2px 0 var(--pink); transform: translate(0); }
-  92% { text-shadow: -2px 0 var(--pink), 2px 0 var(--cyan); transform: translate(-2px, 0); }
-  94% { text-shadow: 2px 0 var(--cyan), -2px 0 var(--pink); transform: translate(2px, 0); }
-  96% { text-shadow: 0 0 20px var(--green); transform: translate(0); }
-}
-
-.header-info {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.65rem;
-  color: #444;
-  text-align: right;
-  letter-spacing: 2px;
-  line-height: 1.8;
-}
-
-.header-info span { color: var(--green); }
-
-/* ===== HERO ===== */
-.hero {
-  padding: 4rem 2rem 2rem;
-  border-bottom: 1px solid var(--border);
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: 'GENUARY';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 20vw;
-  color: rgba(0,255,65,0.03);
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-.hero h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(3rem, 8vw, 7rem);
-  line-height: 0.9;
-  color: #fff;
-  letter-spacing: -2px;
-}
-
-.hero h1 .accent { color: var(--green); }
-.hero h1 .accent2 { color: var(--pink); }
-
-.hero-sub {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.75rem;
-  color: #555;
-  margin-top: 1.5rem;
-  letter-spacing: 3px;
-  line-height: 2;
-}
-
-.hero-sub em { color: var(--cyan); font-style: normal; }
-
-.status-bar {
-  margin-top: 2rem;
-  display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.stat {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.stat-num {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 2.5rem;
-  color: var(--green);
-  line-height: 1;
-}
-
-.stat-label {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.6rem;
-  color: #444;
-  letter-spacing: 2px;
-}
-
-/* ===== GRID ===== */
-.section-header {
-  padding: 2rem 2rem 1rem;
-  display: flex;
-  align-items: baseline;
-  gap: 1rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.section-header h2 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.5rem;
-  color: var(--pink);
-  letter-spacing: 4px;
-}
-
-.section-header .hint {
-  font-size: 0.65rem;
-  color: #333;
-  font-family: 'Share Tech Mono', monospace;
-  letter-spacing: 2px;
-}
-
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1px;
-  background: var(--border);
-  margin: 0;
-  padding: 0;
-}
-
-.card {
-  background: var(--bg);
-  aspect-ratio: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 1rem;
-  position: relative;
-  overflow: hidden;
-  transition: background 0.2s;
-  cursor: pointer;
-}
-
-.card:hover {
-  background: #0d0d0d;
-}
-
-.card:hover .card-canvas {
-  opacity: 1;
-}
-
-.card-day {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 2.5rem;
-  color: rgba(255,255,255,0.06);
-  line-height: 1;
-  position: absolute;
-  top: 8px;
-  right: 10px;
-}
-
-.card-canvas {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  opacity: 0.7;
-  transition: opacity 0.3s;
-}
-
-.card-info {
-  position: relative;
-  z-index: 2;
-  margin-top: auto;
-}
-
-.card-num {
-  font-size: 0.6rem;
-  color: var(--green);
-  font-family: 'Share Tech Mono', monospace;
-  letter-spacing: 2px;
-}
-
-.card-title {
-  font-size: 0.75rem;
-  color: #888;
-  font-family: 'Share Tech Mono', monospace;
-  margin-top: 2px;
-  line-height: 1.3;
-}
-
-.card-title.loaded {
-  color: #eee;
-}
-
-/* ===== CHATBOT ===== */
-#chat-toggle {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  width: 56px;
-  height: 56px;
-  background: var(--bg2);
-  border: 1px solid var(--green);
-  color: var(--green);
-  font-size: 1.4rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  box-shadow: 0 0 20px rgba(0,255,65,0.3);
-  transition: all 0.2s;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(0,255,65,0.3); }
-  50% { box-shadow: 0 0 30px rgba(0,255,65,0.6); }
-}
-
-#chat-toggle:hover {
-  background: rgba(0,255,65,0.1);
-}
-
-#chatbox {
-  position: fixed;
-  bottom: 6rem;
-  right: 2rem;
-  width: 340px;
-  height: 460px;
-  background: #070707;
-  border: 1px solid var(--green);
-  display: flex;
-  flex-direction: column;
-  z-index: 1000;
-  box-shadow: 0 0 40px rgba(0,255,65,0.2);
-  transform: scale(0.95) translateY(10px);
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.2s ease;
-}
-
-#chatbox.open {
-  transform: scale(1) translateY(0);
-  opacity: 1;
-  pointer-events: all;
-}
-
-.chat-header {
-  background: #0a0f0a;
-  border-bottom: 1px solid #1a2a1a;
-  padding: 0.75rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.chat-avatar {
-  width: 28px;
-  height: 28px;
-  border: 1px solid var(--green);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.9rem;
-  flex-shrink: 0;
-}
-
-.chat-name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1rem;
-  color: var(--green);
-  letter-spacing: 2px;
-}
-
-.chat-status {
-  font-size: 0.55rem;
-  color: #444;
-  font-family: 'Share Tech Mono', monospace;
-  letter-spacing: 1px;
-}
-
-.chat-status::before {
-  content: '● ';
-  color: var(--green);
-}
-
-.chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  scrollbar-width: thin;
-  scrollbar-color: #1a1a1a transparent;
-}
-
-.msg {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  max-width: 85%;
-}
-
-.msg.bot { align-self: flex-start; }
-.msg.user { align-self: flex-end; }
-
-.msg-label {
-  font-size: 0.5rem;
-  color: #333;
-  font-family: 'Share Tech Mono', monospace;
-  letter-spacing: 1px;
-}
-
-.msg.bot .msg-label { color: #2a5a2a; }
-.msg.user .msg-label { color: #444; text-align: right; }
-
-.msg-bubble {
-  padding: 0.5rem 0.75rem;
-  font-size: 0.7rem;
-  line-height: 1.5;
-  font-family: 'Share Tech Mono', monospace;
-}
-
-.msg.bot .msg-bubble {
-  background: #0a150a;
-  border: 1px solid #1a2a1a;
-  color: #aaa;
-  border-left: 2px solid var(--green);
-}
-
-.msg.user .msg-bubble {
-  background: #150a15;
-  border: 1px solid #2a1a2a;
-  color: #ccc;
-  border-right: 2px solid var(--pink);
-  text-align: right;
-}
-
-.msg.bot .msg-bubble em {
-  color: var(--green);
-  font-style: normal;
-}
-
-.chat-input-area {
-  border-top: 1px solid #1a2a1a;
-  padding: 0.75rem;
-  display: flex;
-  gap: 0.5rem;
-  background: #060606;
-}
-
-.chat-suggestions {
-  padding: 0 0.75rem 0.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-}
-
-.suggestion-btn {
-  background: transparent;
-  border: 1px solid #1a2a1a;
-  color: #444;
-  font-size: 0.55rem;
-  font-family: 'Share Tech Mono', monospace;
-  padding: 3px 7px;
-  cursor: pointer;
-  transition: all 0.15s;
-  letter-spacing: 0.5px;
-}
-
-.suggestion-btn:hover {
-  border-color: var(--green);
-  color: var(--green);
-}
-
-#chat-input {
-  flex: 1;
-  background: #0a0a0a;
-  border: 1px solid #1a2a1a;
-  color: var(--green);
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.7rem;
-  padding: 0.5rem;
-  outline: none;
-  letter-spacing: 1px;
-}
-
-#chat-input:focus {
-  border-color: var(--green);
-}
-
-#chat-send {
-  background: transparent;
-  border: 1px solid var(--green);
-  color: var(--green);
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 0.9rem;
-  padding: 0 0.75rem;
-  cursor: pointer;
-  letter-spacing: 2px;
-  transition: all 0.15s;
-}
-
-#chat-send:hover {
-  background: rgba(0,255,65,0.1);
-}
-
-/* ===== FOOTER ===== */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.footer-left .name {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 2rem;
-  color: var(--green);
-  letter-spacing: 4px;
-  line-height: 1;
-}
-
-.footer-left .contact {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.65rem;
-  color: #333;
-  margin-top: 6px;
-  line-height: 1.8;
-  letter-spacing: 1px;
-}
-
-.footer-left .contact a {
-  color: var(--green);
-  text-decoration: none;
-}
-
-.footer-right {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.55rem;
-  color: #222;
-  text-align: right;
-  letter-spacing: 2px;
-  line-height: 2;
-}
-
+:root{--green:#00ff41;--pink:#ff00ff;--cyan:#00ffff;--orange:#ff6600;--bg:#050505;--bg2:#0a0a0a;--border:#1a1a1a;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:#ccc;font-family:'Space Mono',monospace;overflow-x:hidden;cursor:crosshair;}
+body::after{content:'';position:fixed;top:0;left:0;right:0;bottom:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,255,65,0.015) 2px,rgba(0,255,65,0.015) 4px);pointer-events:none;z-index:9999;}
+header{border-bottom:1px solid var(--border);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:rgba(5,5,5,0.95);backdrop-filter:blur(4px);z-index:100;}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--green);text-shadow:0 0 20px var(--green),2px 0 var(--pink);letter-spacing:4px;animation:glitch 4s infinite;}
+@keyframes glitch{0%,90%,100%{text-shadow:0 0 20px var(--green),2px 0 var(--pink);transform:translate(0);}92%{text-shadow:-2px 0 var(--pink),2px 0 var(--cyan);transform:translate(-2px,0);}94%{text-shadow:2px 0 var(--cyan),-2px 0 var(--pink);transform:translate(2px,0);}96%{text-shadow:0 0 20px var(--green);transform:translate(0);}}
+.header-info{font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#444;text-align:right;letter-spacing:2px;line-height:1.8;}
+.header-info span{color:var(--green);}
+.hero{padding:4rem 2rem 2rem;border-bottom:1px solid var(--border);position:relative;overflow:hidden;}
+.hero::before{content:'GENUARY';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Bebas Neue',sans-serif;font-size:20vw;color:rgba(0,255,65,0.03);pointer-events:none;white-space:nowrap;}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,8vw,7rem);line-height:0.9;color:#fff;letter-spacing:-2px;}
+.hero h1 .accent{color:var(--green);}.hero h1 .accent2{color:var(--pink);}
+.hero-sub{font-family:'Share Tech Mono',monospace;font-size:0.75rem;color:#555;margin-top:1.5rem;letter-spacing:3px;line-height:2;}
+.hero-sub em{color:var(--cyan);font-style:normal;}
+.status-bar{margin-top:2rem;display:flex;gap:2rem;flex-wrap:wrap;}
+.stat{display:flex;flex-direction:column;gap:2px;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:var(--green);line-height:1;}
+.stat-label{font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:#444;letter-spacing:2px;}
+.links-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:#1a1a1a;}
+.link-card{text-decoration:none;background:#050505;padding:1.5rem 2rem;display:flex;flex-direction:column;gap:8px;transition:background 0.2s;}
+.link-card:hover{background:#0d0d0d;}
+.lc-tag{font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:3px;}
+.lc-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;line-height:1;}
+.lc-desc{font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#555;line-height:1.6;}
+.section-header{padding:2rem 2rem 1rem;display:flex;align-items:baseline;gap:1rem;border-bottom:1px solid var(--border);}
+.section-header h2{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--pink);letter-spacing:4px;}
+.section-header .hint{font-size:0.65rem;color:#333;font-family:'Share Tech Mono',monospace;letter-spacing:2px;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1px;background:var(--border);}
+.card{background:var(--bg);aspect-ratio:1;display:flex;flex-direction:column;justify-content:flex-end;padding:1rem;position:relative;overflow:hidden;transition:background 0.2s;cursor:pointer;}
+.card:hover{background:#0d0d0d;}
+.card-canvas{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.7;transition:opacity 0.3s;}
+.card:hover .card-canvas{opacity:1;}
+.card-day{font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:rgba(255,255,255,0.05);line-height:1;position:absolute;top:8px;right:10px;}
+.card-info{position:relative;z-index:2;}
+.card-num{font-size:0.6rem;color:var(--green);font-family:'Share Tech Mono',monospace;letter-spacing:2px;}
+.card-title{font-size:0.75rem;color:#eee;font-family:'Share Tech Mono',monospace;margin-top:2px;line-height:1.3;}
+.card-hover{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,255,65,0.05);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.2s;z-index:3;}
+.card:hover .card-hover{opacity:1;}
+.card-hover span{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--green);letter-spacing:4px;border:1px solid var(--green);padding:6px 14px;}
+#modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.92);z-index:2000;display:none;align-items:center;justify-content:center;}
+#modal.open{display:flex;}
+.modal-inner{background:#070707;border:1px solid var(--green);width:min(800px,95vw);max-height:90vh;display:flex;flex-direction:column;overflow:hidden;}
+.modal-header{background:#0a0f0a;border-bottom:1px solid #1a2a1a;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--green);letter-spacing:3px;}
+.modal-day{font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:#444;letter-spacing:2px;}
+.modal-close{background:transparent;border:1px solid #333;color:#666;font-size:1.2rem;width:32px;height:32px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.15s;}
+.modal-close:hover{border-color:var(--green);color:var(--green);}
+.modal-body{display:grid;grid-template-columns:1fr 1fr;flex:1;overflow:hidden;}
+.modal-canvas-wrap{background:#050505;display:flex;align-items:center;justify-content:center;padding:1rem;border-right:1px solid #1a1a1a;}
+#modal-canvas{max-width:100%;max-height:400px;}
+.modal-info{padding:1.5rem;overflow-y:auto;display:flex;flex-direction:column;gap:1rem;}
+.modal-prompt{font-size:0.65rem;color:#444;font-family:'Share Tech Mono',monospace;letter-spacing:2px;}
+.modal-desc{font-size:0.8rem;color:#888;font-family:'Share Tech Mono',monospace;line-height:1.7;}
+.modal-tech{display:flex;flex-wrap:wrap;gap:6px;}
+.modal-tech span{font-size:0.55rem;color:var(--green);border:1px solid #0f03;padding:3px 8px;font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
+.modal-nav{display:flex;gap:8px;margin-top:auto;padding-top:1rem;border-top:1px solid #1a1a1a;}
+.modal-nav button{flex:1;background:transparent;border:1px solid #222;color:#555;font-family:'Share Tech Mono',monospace;font-size:0.65rem;padding:8px;cursor:pointer;letter-spacing:1px;transition:all 0.15s;}
+.modal-nav button:hover{border-color:var(--green);color:var(--green);}
+@media(max-width:600px){.modal-body{grid-template-columns:1fr;}.modal-canvas-wrap{border-right:none;border-bottom:1px solid #1a1a1a;}}
+#chat-toggle{position:fixed;bottom:2rem;right:2rem;width:56px;height:56px;background:var(--bg2);border:1px solid var(--green);color:var(--green);font-size:1.4rem;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:1000;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 20px rgba(0,255,65,0.3);}50%{box-shadow:0 0 30px rgba(0,255,65,0.6);}}
+#chatbox{position:fixed;bottom:6rem;right:2rem;width:340px;height:460px;background:#070707;border:1px solid var(--green);display:flex;flex-direction:column;z-index:1000;transform:scale(0.95) translateY(10px);opacity:0;pointer-events:none;transition:all 0.2s ease;}
+#chatbox.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
+.chat-header{background:#0a0f0a;border-bottom:1px solid #1a2a1a;padding:0.75rem 1rem;display:flex;align-items:center;gap:0.75rem;}
+.chat-avatar{width:28px;height:28px;border:1px solid var(--green);display:flex;align-items:center;justify-content:center;font-size:0.9rem;flex-shrink:0;}
+.chat-name{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--green);letter-spacing:2px;}
+.chat-status{font-size:0.55rem;color:#444;font-family:'Share Tech Mono',monospace;}
+.chat-status::before{content:'● ';color:var(--green);}
+.chat-messages{flex:1;overflow-y:auto;padding:1rem;display:flex;flex-direction:column;gap:0.75rem;scrollbar-width:thin;}
+.msg{display:flex;flex-direction:column;gap:2px;max-width:85%;}
+.msg.bot{align-self:flex-start;}.msg.user{align-self:flex-end;}
+.msg-label{font-size:0.5rem;color:#333;font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
+.msg.bot .msg-label{color:#2a5a2a;}.msg.user .msg-label{color:#444;text-align:right;}
+.msg-bubble{padding:0.5rem 0.75rem;font-size:0.7rem;line-height:1.5;font-family:'Share Tech Mono',monospace;}
+.msg.bot .msg-bubble{background:#0a150a;border:1px solid #1a2a1a;color:#aaa;border-left:2px solid var(--green);}
+.msg.user .msg-bubble{background:#150a15;border:1px solid #2a1a2a;color:#ccc;border-right:2px solid var(--pink);text-align:right;}
+.msg.bot .msg-bubble em{color:var(--green);font-style:normal;}
+.chat-suggestions{padding:0 0.75rem 0.5rem;display:flex;flex-wrap:wrap;gap:4px;}
+.suggestion-btn{background:transparent;border:1px solid #1a2a1a;color:#444;font-size:0.55rem;font-family:'Share Tech Mono',monospace;padding:3px 7px;cursor:pointer;transition:all 0.15s;}
+.suggestion-btn:hover{border-color:var(--green);color:var(--green);}
+.chat-input-area{border-top:1px solid #1a2a1a;padding:0.75rem;display:flex;gap:0.5rem;background:#060606;}
+#chat-input{flex:1;background:#0a0a0a;border:1px solid #1a2a1a;color:var(--green);font-family:'Share Tech Mono',monospace;font-size:0.7rem;padding:0.5rem;outline:none;letter-spacing:1px;}
+#chat-input:focus{border-color:var(--green);}
+#chat-send{background:transparent;border:1px solid var(--green);color:var(--green);font-family:'Bebas Neue',sans-serif;font-size:0.9rem;padding:0 0.75rem;cursor:pointer;letter-spacing:2px;}
+#chat-send:hover{background:rgba(0,255,65,0.1);}
+footer{border-top:1px solid var(--border);padding:2rem;display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;}
+.footer-left .name{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--green);letter-spacing:4px;line-height:1;}
+.footer-left .contact{font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#333;margin-top:6px;line-height:1.8;letter-spacing:1px;}
+.footer-left .contact a{color:var(--green);text-decoration:none;}
+.footer-right{font-family:'Share Tech Mono',monospace;font-size:0.55rem;color:#222;text-align:right;letter-spacing:2px;line-height:2;}
 </style>
 </head>
 <body>
 
 <header>
   <div class="logo">ILIAS.MA</div>
-  <div class="header-info">
-    GENUARY <span>2026</span><br>
-    31 PROMPTS — 31 SKETCHES<br>
-    <span>p5.js</span> — CREATIVE CODING
-  </div>
+  <div class="header-info">GENUARY <span>2026</span><br>31 PROMPTS — 31 SKETCHES<br><span>p5.js</span> — CREATIVE CODING</div>
 </header>
 
 <section class="hero">
-  <h1>
-    <span class="accent">GEN</span>UARY<br>
-    <span class="accent2">20</span>26
-  </h1>
-  <div class="hero-sub">
-    31 JOURS — 31 PROMPTS — 31 UNIVERS GÉNÉRATIFS<br>
-    PAR <em>ILIAS BOUNABAT</em> — DEVINCI / PARIS
-  </div>
+  <h1><span class="accent">GEN</span>UARY<br><span class="accent2">20</span>26</h1>
+  <div class="hero-sub">31 JOURS — 31 PROMPTS — 31 UNIVERS GÉNÉRATIFS<br>PAR <em>ILIAS BOUNABAT</em> — DEVINCI / PARIS</div>
   <div class="status-bar">
-    <div class="stat">
-      <div class="stat-num">31</div>
-      <div class="stat-label">SKETCHES</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">100%</div>
-      <div class="stat-label">p5.js</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">∞</div>
-      <div class="stat-label">ITERATIONS</div>
-    </div>
+    <div class="stat"><div class="stat-num">31</div><div class="stat-label">SKETCHES</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">p5.js</div></div>
+    <div class="stat"><div class="stat-num">∞</div><div class="stat-label">ITERATIONS</div></div>
   </div>
 </section>
 
-<!-- LINKS SECTION -->
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:#1a1a1a;border-top:1px solid #1a1a1a;">
-
-  <a href="https://app.eden.art/chat?agent=ilias-genuary-bot" target="_blank" style="text-decoration:none;background:#050505;padding:1.5rem 2rem;display:flex;flex-direction:column;gap:8px;" onmouseover="this.style.background='#0a0a0f'" onmouseout="this.style.background='#050505'">
-    <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:#f0f;letter-spacing:3px;">// AGENT IA //</div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#f0f;line-height:1;text-shadow:2px 0 #0ff;">EDEN.ART</div>
-    <div style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#555;line-height:1.6;">Parle à mon agent génératif →<br>app.eden.art/chat?agent=ilias-genuary-bot</div>
+<div class="links-grid">
+  <a href="https://app.eden.art/chat?agent=ilias-genuary-bot" target="_blank" class="link-card">
+    <div class="lc-tag" style="color:#f0f;">// AGENT IA //</div>
+    <div class="lc-title" style="color:#f0f;text-shadow:2px 0 #0ff;">EDEN.ART</div>
+    <div class="lc-desc">Parle à mon agent génératif →<br>app.eden.art/chat?agent=ilias-genuary-bot</div>
   </a>
-
-  <a href="https://github.com/ILIAS-ma/Final-Projects-Veille-et-Techno" target="_blank" style="text-decoration:none;background:#050505;padding:1.5rem 2rem;display:flex;flex-direction:column;gap:8px;" onmouseover="this.style.background='#0a0f0a'" onmouseout="this.style.background='#050505'">
-    <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:#0f0;letter-spacing:3px;">// SOURCE CODE //</div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#0f0;line-height:1;text-shadow:2px 0 #f0f;">GITHUB</div>
-    <div style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#555;line-height:1.6;">Tout le code source →<br>github.com/ILIAS-ma/Final-Projects-Veille-et-Techno</div>
+  <a href="https://github.com/ILIAS-ma/Final-Projects-Veille-et-Techno" target="_blank" class="link-card">
+    <div class="lc-tag" style="color:#0f0;">// SOURCE CODE //</div>
+    <div class="lc-title" style="color:#0f0;text-shadow:2px 0 #f0f;">GITHUB</div>
+    <div class="lc-desc">Tout le code source →<br>github.com/ILIAS-ma/Final-Projects-Veille-et-Techno</div>
   </a>
-
-  <a href="./small-zine.html" target="_blank" style="text-decoration:none;background:#050505;padding:1.5rem 2rem;display:flex;flex-direction:column;gap:8px;" onmouseover="this.style.background='#0f0800'" onmouseout="this.style.background='#050505'">
-    <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:#ff6600;letter-spacing:3px;">// SMALL ZINE //</div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#ff6600;line-height:1;">ZINE_01</div>
-    <div style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#555;line-height:1.6;">Mini zine 8 pages →<br>Imprimer A4 paysage + couper</div>
+  <a href="./small-zine.html" target="_blank" class="link-card">
+    <div class="lc-tag" style="color:#ff6600;">// SMALL ZINE //</div>
+    <div class="lc-title" style="color:#ff6600;">ZINE_01</div>
+    <div class="lc-desc">Mini zine 8 pages →<br>Imprimer A4 paysage + couper</div>
   </a>
-
-  <a href="./big-zine.html" target="_blank" style="text-decoration:none;background:#050505;padding:1.5rem 2rem;display:flex;flex-direction:column;gap:8px;" onmouseover="this.style.background='#08000a'" onmouseout="this.style.background='#050505'">
-    <div style="font-family:'Share Tech Mono',monospace;font-size:0.6rem;color:#0ff;letter-spacing:3px;">// BIG ZINE //</div>
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#0ff;line-height:1;">ZINE_02</div>
-    <div style="font-family:'Share Tech Mono',monospace;font-size:0.65rem;color:#555;line-height:1.6;">Grand zine cousu →<br>Imprimer A5 + saddle stitch</div>
+  <a href="./big-zine.html" target="_blank" class="link-card">
+    <div class="lc-tag" style="color:#0ff;">// BIG ZINE //</div>
+    <div class="lc-title" style="color:#0ff;">ZINE_02</div>
+    <div class="lc-desc">Grand zine cousu →<br>Imprimer A5 + saddle stitch</div>
   </a>
-
 </div>
 
 <div class="section-header">
   <h2>// PROJETS //</h2>
-  <span class="hint">→ 31 SKETCHES GÉNÉRATIFS p5.js</span>
+  <span class="hint">→ CLIQUER POUR VOIR LE SKETCH ANIMÉ</span>
 </div>
 
 <div class="grid" id="grid"></div>
@@ -590,248 +155,157 @@ footer {
       ◈ PÔLE LÉONARD DE VINCI — PARIS
     </div>
   </div>
-  <div class="footer-right">
-    GENUARY 2026<br>
-    CREATIVE CODING<br>
-    ALL RIGHTS RESERVED
-  </div>
+  <div class="footer-right">GENUARY 2026<br>CREATIVE CODING<br>ALL RIGHTS RESERVED</div>
 </footer>
 
-<!-- CHATBOT TOGGLE -->
-<button id="chat-toggle" onclick="toggleChat()" title="Parler à l'assistant">⌘</button>
+<div id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div>
+        <div class="modal-day" id="modal-day">DAY 01 / 31</div>
+        <div class="modal-title" id="modal-title">TITRE</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-canvas-wrap"><canvas id="modal-canvas" width="400" height="400"></canvas></div>
+      <div class="modal-info">
+        <div>
+          <div class="modal-prompt">// PROMPT GENUARY 2026 //</div>
+          <div class="modal-desc" id="modal-desc"></div>
+        </div>
+        <div class="modal-tech" id="modal-tech"></div>
+        <div class="modal-nav">
+          <button onclick="navigate(-1)">← PREV</button>
+          <button onclick="navigate(1)">NEXT →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<!-- CHATBOX -->
+<button id="chat-toggle" onclick="toggleChat()">⌘</button>
 <div id="chatbox">
   <div class="chat-header">
     <div class="chat-avatar">G</div>
-    <div>
-      <div class="chat-name">GEN_BOT</div>
-      <div class="chat-status">ONLINE — GENUARY 2026</div>
-    </div>
+    <div><div class="chat-name">GEN_BOT</div><div class="chat-status">ONLINE — GENUARY 2026</div></div>
   </div>
   <div class="chat-messages" id="chat-messages">
     <div class="msg bot">
       <div class="msg-label">GEN_BOT // INIT</div>
-      <div class="msg-bubble">Salut ! Je suis le chatbot de <em>Ilias Bounabat</em>. Pose-moi des questions sur ses projets Genuary 2026, son code, ou son parcours. ⚡</div>
+      <div class="msg-bubble">Salut ! Je suis le chatbot de <em>Ilias Bounabat</em>. Pose-moi des questions sur ses projets Genuary 2026 ⚡</div>
     </div>
   </div>
   <div class="chat-suggestions">
     <button class="suggestion-btn" onclick="sendSuggestion('C\'est quoi Genuary ?')">C'est quoi Genuary ?</button>
     <button class="suggestion-btn" onclick="sendSuggestion('Ton projet favori ?')">Projet favori ?</button>
     <button class="suggestion-btn" onclick="sendSuggestion('Qui est Ilias ?')">Qui est Ilias ?</button>
-    <button class="suggestion-btn" onclick="sendSuggestion('Contact info')">Contact</button>
+    <button class="suggestion-btn" onclick="sendSuggestion('Contact')">Contact</button>
   </div>
   <div class="chat-input-area">
-    <input type="text" id="chat-input" placeholder="> TYPE HERE_" maxlength="200"
-      onkeydown="if(event.key==='Enter')sendMessage()">
+    <input type="text" id="chat-input" placeholder="> TYPE HERE_" maxlength="200" onkeydown="if(event.key==='Enter')sendMessage()">
     <button id="chat-send" onclick="sendMessage()">SEND</button>
   </div>
 </div>
 
 <script>
-// ===== GENUARY PROMPTS =====
-const prompts = [
-  "Lignes en mouvement","Palette de 3 couleurs","Grille qui respire","Bruit de Perlin","Miroir & symétrie",
-  "Formes qui tombent","Cercles concentriques","Erreur comme esthétique","Ombre portée","Couleurs complémentaires",
-  "Particules magnétiques","Labyrinthe généré","Typographie animée","Boucles infinies","Fractale simple",
-  "Pixels bruités","Réaction-diffusion","Champ de vecteurs","Distorsion de grille","Motif islamique",
-  "Simulation physique","Automate cellulaire","Courbes de Bézier","Palette minimaliste","Texture organique",
-  "Formes géométriques","Peinture à l'encre","Son → visuel","Tissu numérique","Portrait en code","BILAN"
+const days=[
+{title:"Lignes en mouvement",desc:"Des lignes qui bougent de façon organique grâce au bruit de Perlin. Chaque ligne suit sa propre trajectoire chaotique.",tech:["Perlin Noise","stroke()","frameCount"],color:"#00ff41",draw:(c,w,h,t)=>{c.strokeStyle='#00ff41';for(let i=0;i<20;i++){c.globalAlpha=0.4+Math.sin(t*0.02+i)*0.3;c.lineWidth=0.8;c.beginPath();c.moveTo(0,h/2+Math.sin(t*0.01+i*0.5)*80);for(let x=0;x<w;x+=4){c.lineTo(x,h/2+Math.sin(t*0.01+x*0.02+i*0.7)*60+Math.cos(t*0.007+x*0.03)*40);}c.stroke();}c.globalAlpha=1;}},
+{title:"Palette de 3 couleurs",desc:"Une composition minimaliste utilisant exactement 3 couleurs. Les formes se superposent pour créer de nouvelles nuances par transparence.",tech:["colorMode()","blendMode()","rect()"],color:"#ff00ff",draw:(c,w,h,t)=>{['#ff00ff','#00ffff','#ffff00'].forEach((col,i)=>{c.fillStyle=col;c.globalAlpha=0.5;c.fillRect(Math.sin(t*0.01+i*2)*30+w/4+i*80,Math.cos(t*0.008+i)*20+h/4,120,120);});c.globalAlpha=1;}},
+{title:"Grille qui respire",desc:"Une grille de cellules qui s'expandent et se contractent comme si elles respiraient, animées par des fonctions sinusoïdales.",tech:["sin()","grid","map()"],color:"#00ffff",draw:(c,w,h,t)=>{const cols=10,rows=10,cw=w/cols,ch=h/rows;c.strokeStyle='#00ffff';for(let x=0;x<cols;x++){for(let y=0;y<rows;y++){const s=0.3+0.7*Math.abs(Math.sin(t*0.02+x*0.5+y*0.3));c.globalAlpha=s;c.lineWidth=0.5;c.strokeRect(x*cw+cw*0.1,y*ch+ch*0.1,cw*0.8*s,ch*0.8*s);}}c.globalAlpha=1;}},
+{title:"Bruit de Perlin",desc:"Exploration pure du bruit de Perlin 2D — un champ de couleurs fluides qui évoluent doucement dans le temps.",tech:["noise()","pixels[]","HSB"],color:"#ff6600",draw:(c,w,h,t)=>{for(let x=0;x<w;x+=8){for(let y=0;y<h;y+=8){const n=Math.abs(Math.sin(x*0.05+t*0.01)*Math.cos(y*0.05+t*0.008));c.fillStyle=`hsl(${30+n*60},100%,${20+n*40}%)`;c.globalAlpha=0.8;c.fillRect(x,y,8,8);}}c.globalAlpha=1;}},
+{title:"Miroir & symétrie",desc:"Chaque dessin est reflété sur 4 axes pour créer des motifs kaléidoscopiques. Le chaos devient symétrique.",tech:["translate()","scale()","reflect"],color:"#ffff00",draw:(c,w,h,t)=>{c.save();c.translate(w/2,h/2);for(let i=0;i<4;i++){c.save();if(i%2===0)c.scale(-1,1);if(i>1)c.scale(1,-1);c.strokeStyle='#ffff00';c.lineWidth=0.8;c.globalAlpha=0.6;c.beginPath();c.moveTo(0,0);for(let j=0;j<8;j++){c.lineTo(Math.cos(t*0.01+j)*80,Math.sin(t*0.013+j*0.7)*80);}c.stroke();c.restore();}c.restore();c.globalAlpha=1;}},
+{title:"Formes qui tombent",desc:"Des particules géométriques soumises à la gravité. Elles rebondissent sur le sol avec une légère perte d'énergie.",tech:["gravity","bounce","classes"],color:"#ff0066",draw:(c,w,h,t)=>{for(let i=0;i<15;i++){const y=((t*0.8+i*30)%h);const x=50+i*25;const r=8+Math.sin(i)*5;c.fillStyle='#ff0066';c.globalAlpha=0.6+Math.sin(t*0.05+i)*0.2;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}c.globalAlpha=1;}},
+{title:"Cercles concentriques",desc:"Des anneaux qui se propagent depuis le centre comme des ondes sur l'eau. L'espacement varie selon une fonction sinusoïdale.",tech:["arc()","strokeWeight","wave"],color:"#66ff00",draw:(c,w,h,t)=>{c.strokeStyle='#66ff00';for(let r=10;r<200;r+=15+Math.sin(r*0.1+t*0.02)*5){c.globalAlpha=1-r/200;c.lineWidth=0.5+Math.sin(t*0.03+r*0.05);c.beginPath();c.arc(w/2,h/2,r,0,Math.PI*2);c.stroke();}c.globalAlpha=1;}},
+{title:"Erreur comme esthétique",desc:"Les bugs deviennent art. Glitchs visuels, décalages RGB, corruptions de pixels — l'erreur est intentionnelle et célébrée.",tech:["pixels[]","glitch","RGB shift"],color:"#0066ff",draw:(c,w,h,t)=>{c.fillStyle='#0066ff';c.globalAlpha=0.6;c.fillRect(Math.sin(t*0.05)*20,0,w,h/3);c.fillStyle='#ff0000';c.globalAlpha=0.4;c.fillRect(Math.cos(t*0.03)*15+5,h/3,w,h/3);c.fillStyle='#00ff00';c.globalAlpha=0.4;c.fillRect(-Math.sin(t*0.04)*10,2*h/3,w,h/3);for(let i=0;i<5;i++){c.fillStyle='#fff';c.globalAlpha=0.8;c.fillRect(Math.random()*w,Math.random()*h,Math.random()*40+5,2);}c.globalAlpha=1;}},
+{title:"Ombre portée",desc:"Des objets projetant des ombres dynamiques selon la position d'une source lumineuse virtuelle qui tourne.",tech:["shadow","light source","geometry"],color:"#ff9900",draw:(c,w,h,t)=>{const lx=w/2+Math.cos(t*0.01)*100;c.fillStyle='#ff9900';c.globalAlpha=0.15;c.beginPath();c.ellipse(w/2+(w/2-lx)*0.5,h-20,(Math.abs(w/2-lx)+40)*0.5,15,0,0,Math.PI*2);c.fill();c.globalAlpha=0.9;c.beginPath();c.arc(w/2,h/2,40,0,Math.PI*2);c.fill();c.globalAlpha=0.4;c.fillStyle='#ffaa00';c.beginPath();c.arc(lx,50,8,0,Math.PI*2);c.fill();c.globalAlpha=1;}},
+{title:"Couleurs complémentaires",desc:"Exploration des paires de couleurs opposées sur le cercle chromatique. Chaque forme vibre contre son complément.",tech:["colorWheel","HSB","contrast"],color:"#00ff99",draw:(c,w,h,t)=>{for(let i=0;i<6;i++){const hue=i*60;c.fillStyle=`hsl(${hue+t*0.2},100%,50%)`;c.globalAlpha=0.6;c.beginPath();c.arc(w/2+Math.cos(i/6*Math.PI*2+t*0.01)*80,h/2+Math.sin(i/6*Math.PI*2+t*0.01)*80,35,0,Math.PI*2);c.fill();}c.globalAlpha=1;}},
+{title:"Particules magnétiques",desc:"Des particules attirées et repoussées par des pôles magnétiques. Le mouvement collectif crée des flux organiques.",tech:["vectors","attraction","forces"],color:"#ff0099",draw:(c,w,h,t)=>{for(let i=0;i<40;i++){const angle=t*0.02+i*0.3;const r=60+Math.sin(t*0.015+i)*40;c.fillStyle='#ff0099';c.globalAlpha=0.5+Math.sin(t*0.03+i)*0.3;c.beginPath();c.arc(w/2+Math.cos(angle)*r,h/2+Math.sin(angle)*r,3,0,Math.PI*2);c.fill();}c.globalAlpha=1;}},
+{title:"Labyrinthe généré",desc:"Un labyrinthe parfait généré procéduralement par l'algorithme de backtracking récursif. Chaque run est unique.",tech:["recursion","backtracking","maze"],color:"#99ff00",draw:(c,w,h,t)=>{c.strokeStyle='#99ff00';c.lineWidth=0.8;const sz=20;for(let x=0;x<w;x+=sz){for(let y=0;y<h;y+=sz){c.globalAlpha=0.3+Math.abs(Math.sin(x*0.1+y*0.1+t*0.01))*0.5;if(Math.sin(x*y*0.001+t*0.005)>0){c.strokeRect(x,y,sz,sz);}}}c.globalAlpha=1;}},
+{title:"Typographie animée",desc:"Des lettres qui se déforment, s'étirent, se fragmentent. Le texte devient matière visuelle plutôt que vecteur de sens.",tech:["textSize()","textFont","deform"],color:"#0099ff",draw:(c,w,h,t)=>{c.font=`bold ${60+Math.sin(t*0.02)*10}px monospace`;c.fillStyle='#0099ff';c.globalAlpha=0.8;c.textAlign='center';c.fillText('ILIAS',w/2+Math.sin(t*0.03)*5,h/2-20);c.font=`bold ${30+Math.cos(t*0.015)*8}px monospace`;c.fillStyle='#ff00ff';c.globalAlpha=0.6;c.fillText('GENUARY',w/2+Math.cos(t*0.02)*8,h/2+30);c.globalAlpha=1;}},
+{title:"Boucles infinies",desc:"Des formes qui se réduisent indéfiniment vers leur centre, créant une illusion de profondeur et de mouvement perpétuel.",tech:["recursion","scale","loop"],color:"#ff9900",draw:(c,w,h,t)=>{c.save();c.translate(w/2,h/2);for(let i=0;i<8;i++){const s=1-i*0.1;c.scale(s,s);c.rotate(t*0.005+i*0.3);c.strokeStyle='#ff9900';c.globalAlpha=1-i*0.1;c.lineWidth=0.8;c.strokeRect(-60,-60,120,120);}c.restore();c.globalAlpha=1;}},
+{title:"Fractale simple",desc:"Un arbre fractal dont les branches se subdivisent récursivement. L'angle et la longueur varient avec le temps.",tech:["recursion","branch","angle"],color:"#00ffcc",draw:(c,w,h,t)=>{function br(x,y,len,angle,depth){if(depth===0||len<2)return;const x2=x+Math.cos(angle)*len,y2=y+Math.sin(angle)*len;c.strokeStyle='#00ffcc';c.globalAlpha=depth/7;c.lineWidth=depth*0.4;c.beginPath();c.moveTo(x,y);c.lineTo(x2,y2);c.stroke();const a=0.4+Math.sin(t*0.01)*0.15;br(x2,y2,len*0.68,-Math.PI/2-a+angle+Math.PI/2,depth-1);br(x2,y2,len*0.68,-Math.PI/2+a+angle+Math.PI/2,depth-1);}br(w/2,h-10,70,-Math.PI/2,7);c.globalAlpha=1;}},
+{title:"Pixels bruités",desc:"Une texture de pixels aléatoires dont la densité et la luminosité sont modulées par du bruit.",tech:["pixels[]","noise","density"],color:"#cc00ff",draw:(c,w,h,t)=>{for(let x=0;x<w;x+=4){for(let y=0;y<h;y+=4){const n=Math.abs(Math.sin(x*0.08+t*0.01)*Math.cos(y*0.08+t*0.008));c.fillStyle=`hsl(280,80%,${10+n*60}%)`;c.globalAlpha=n*0.8;c.fillRect(x,y,4,4);}}c.globalAlpha=1;}},
+{title:"Réaction-diffusion",desc:"Simulation d'un système chimique Gray-Scott. Des motifs organiques émergent de règles simples.",tech:["simulation","Gray-Scott","arrays"],color:"#ffcc00",draw:(c,w,h,t)=>{const size=8;for(let x=0;x<w;x+=size){for(let y=0;y<h;y+=size){const u=Math.sin(x*0.06+t*0.008)*Math.cos(y*0.06-t*0.006);const v=Math.cos(x*0.04+t*0.01)*Math.sin(y*0.04+t*0.007);const col=u*v;c.fillStyle=col>0?`rgba(255,200,0,${Math.abs(col)*0.8})`:`rgba(0,100,200,${Math.abs(col)*0.5})`;c.fillRect(x,y,size,size);}}c.globalAlpha=1;}},
+{title:"Champ de vecteurs",desc:"Un champ vectoriel visible — chaque point porte une flèche indiquant direction et intensité.",tech:["vectors","field","flow"],color:"#00ccff",draw:(c,w,h,t)=>{const step=25;c.strokeStyle='#00ccff';c.lineWidth=0.8;for(let x=step;x<w;x+=step){for(let y=step;y<h;y+=step){const angle=Math.sin(x*0.04+t*0.01)*Math.cos(y*0.04+t*0.008)*Math.PI;const len=10;c.globalAlpha=0.5;c.save();c.translate(x,y);c.rotate(angle);c.beginPath();c.moveTo(-len/2,0);c.lineTo(len/2,0);c.lineTo(len/2-4,-3);c.moveTo(len/2,0);c.lineTo(len/2-4,3);c.stroke();c.restore();}}c.globalAlpha=1;}},
+{title:"Distorsion de grille",desc:"Une grille régulière déformée par un champ de forces. Les droites deviennent courbes, la régularité se dissout.",tech:["warp","grid","distort"],color:"#ff00cc",draw:(c,w,h,t)=>{c.strokeStyle='#ff00cc';c.lineWidth=0.5;const cols=12,rows=12;for(let x=0;x<=cols;x++){c.globalAlpha=0.5;c.beginPath();for(let y=0;y<=rows;y++){const px=x*(w/cols)+Math.sin(y*0.5+t*0.01)*20,py=y*(h/rows);y===0?c.moveTo(px,py):c.lineTo(px,py);}c.stroke();}for(let y=0;y<=rows;y++){c.beginPath();for(let x=0;x<=cols;x++){const px=x*(w/cols),py=y*(h/rows)+Math.cos(x*0.5+t*0.01)*20;x===0?c.moveTo(px,py):c.lineTo(px,py);}c.stroke();}c.globalAlpha=1;}},
+{title:"Motif islamique",desc:"Géométrie sacrée inspirée des arts islamiques. Des polygones réguliers s'imbriquent pour former un motif infini.",tech:["polygon","tessellation","rotate"],color:"#ccff00",draw:(c,w,h,t)=>{c.strokeStyle='#ccff00';c.lineWidth=0.8;function poly(cx,cy,r,n,rot){c.beginPath();for(let i=0;i<=n;i++){const a=rot+i/n*Math.PI*2;i===0?c.moveTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r):c.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);}c.stroke();}const sz=45;for(let x=-1;x<6;x++){for(let y=-1;y<6;y++){c.globalAlpha=0.5;poly(x*sz+sz/2,y*sz+sz/2,22,6,t*0.005);c.globalAlpha=0.3;poly(x*sz+sz/2,y*sz+sz/2,14,6,t*0.005+Math.PI/6);}}c.globalAlpha=1;}},
+{title:"Simulation physique",desc:"Des balles soumises à la gravité, aux collisions et à la friction. Un moteur physique minimaliste.",tech:["physics","collision","gravity"],color:"#00ff66",draw:(c,w,h,t)=>{for(let i=0;i<8;i++){const y=h-20-Math.abs(Math.sin(t*0.02+i*0.8))*(h-60),x=30+i*(w-60)/7,r=12+Math.sin(i)*4;c.fillStyle=`hsl(${140+i*15},100%,50%)`;c.globalAlpha=0.8;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();c.fillStyle='rgba(0,255,100,0.1)';c.beginPath();c.ellipse(x,h-8,r,4,0,0,Math.PI*2);c.fill();}c.globalAlpha=1;}},
+{title:"Automate cellulaire",desc:"Jeu de la Vie de Conway en temps réel. Des règles simples font émerger des structures complexes.",tech:["Conway","cellular automata","grid"],color:"#ff6600",draw:(c,w,h,t)=>{const sz=10;for(let x=0;x<w;x+=sz){for(let y=0;y<h;y+=sz){const alive=Math.sin(x*0.2+t*0.03)*Math.cos(y*0.2+t*0.025)>0.3;if(alive){c.fillStyle='#ff6600';c.globalAlpha=0.7;c.fillRect(x+1,y+1,sz-2,sz-2);}}}c.globalAlpha=1;}},
+{title:"Courbes de Bézier",desc:"Des courbes de Bézier cubiques dont les points de contrôle se déplacent doucement. Fluidité et élégance mathématique.",tech:["bezierCurveTo()","control points","lerp"],color:"#6600ff",draw:(c,w,h,t)=>{c.strokeStyle='#6600ff';c.lineWidth=1;for(let i=0;i<8;i++){c.globalAlpha=0.4+i*0.07;const off=i*15;c.beginPath();c.moveTo(off,h/2);c.bezierCurveTo(w/3+Math.sin(t*0.01+i)*50,Math.sin(t*0.008+i)*100+50,2*w/3+Math.cos(t*0.012+i)*50,h-Math.sin(t*0.009+i)*100-50,w-off,h/2);c.stroke();}c.globalAlpha=1;}},
+{title:"Palette minimaliste",desc:"Un exercice de retenue — une seule teinte, deux valeurs. La composition parle par l'espace négatif.",tech:["minimal","negative space","proportion"],color:"#ff0066",draw:(c,w,h,t)=>{const s=Math.sin(t*0.008);c.fillStyle='#ff0066';c.globalAlpha=0.9;c.fillRect(w*0.1,h*0.1,w*(0.3+s*0.1),h*0.8);c.globalAlpha=0.3;c.fillRect(w*0.5,h*(0.3-s*0.05),w*0.4,h*(0.4+s*0.1));c.globalAlpha=1;}},
+{title:"Texture organique",desc:"Simulation de textures naturelles — écorce, peau, pierre. Des strates de bruit créent une surface vivante.",tech:["organic","layers","noise"],color:"#00ff41",draw:(c,w,h,t)=>{for(let x=0;x<w;x+=3){for(let y=0;y<h;y+=3){const n1=Math.sin(x*0.07+t*0.005)*Math.cos(y*0.05),n2=Math.sin(x*0.03+y*0.04+t*0.003),n=n1*0.6+n2*0.4;c.fillStyle=`rgba(0,${100+n*155},${50+n*50},${0.4+n*0.3})`;c.fillRect(x,y,3,3);}}c.globalAlpha=1;}},
+{title:"Formes géométriques",desc:"Un ballet de formes pures — triangles, carrés, hexagones — qui orbitent et s'interpénètrent.",tech:["polygon","orbit","rotate"],color:"#ff00ff",draw:(c,w,h,t)=>{[3,4,5,6].forEach((sides,i)=>{const r=50+i*15,cx=w/2+Math.cos(t*0.008+i*1.5)*60,cy=h/2+Math.sin(t*0.01+i*1.5)*60;c.globalAlpha=0.5;c.lineWidth=0.8;c.strokeStyle='#ff00ff';c.beginPath();for(let j=0;j<=sides;j++){const a=t*0.01+j/sides*Math.PI*2;j===0?c.moveTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r):c.lineTo(cx+Math.cos(a)*r,cy+Math.sin(a)*r);}c.closePath();c.stroke();});c.globalAlpha=1;}},
+{title:"Peinture à l'encre",desc:"Simulation d'encre qui se répand sur du papier humide. La diffusion est contrôlée par la viscosité.",tech:["diffusion","fluid","ink sim"],color:"#00ffff",draw:(c,w,h,t)=>{for(let i=0;i<20;i++){const x=w/2+Math.sin(t*0.005+i*0.8)*100,y=h/2+Math.cos(t*0.007+i*0.6)*80,r=5+Math.sin(t*0.02+i)*3;c.fillStyle='rgba(0,200,255,0.08)';c.beginPath();c.arc(x,y,r*8,0,Math.PI*2);c.fill();c.fillStyle='rgba(0,100,180,0.5)';c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}c.globalAlpha=1;}},
+{title:"Son → visuel",desc:"Visualisation de données sonores synthétiques. Les fréquences deviennent formes, les amplitudes deviennent couleurs.",tech:["FFT","waveform","audio viz"],color:"#ffaa00",draw:(c,w,h,t)=>{c.strokeStyle='#ffaa00';c.lineWidth=1.5;c.beginPath();for(let x=0;x<w;x++){const freq=Math.sin(x*0.05+t*0.02)*Math.sin(x*0.02+t*0.015),y=h/2+freq*80+Math.sin(x*0.1+t*0.03)*20;x===0?c.moveTo(x,y):c.lineTo(x,y);}c.globalAlpha=0.8;c.stroke();c.strokeStyle='#ff6600';c.lineWidth=0.5;c.beginPath();for(let x=0;x<w;x++){const y=h/2+Math.sin(x*0.08+t*0.025)*50;x===0?c.moveTo(x,y):c.lineTo(x,y);}c.globalAlpha=0.4;c.stroke();c.globalAlpha=1;}},
+{title:"Tissu numérique",desc:"Simulation d'un tissu 2D avec contraintes de ressort. Les nœuds simulent une trame souple.",tech:["springs","constraints","cloth"],color:"#aa00ff",draw:(c,w,h,t)=>{const cols=12;c.strokeStyle='#aa00ff';c.lineWidth=0.6;c.globalAlpha=0.4;for(let x=0;x<cols;x++){c.beginPath();for(let y=0;y<8;y++){const px=x*(w/cols)+Math.sin(y*0.5+t*0.01+x*0.3)*15,py=y*(h/7);y===0?c.moveTo(px,py):c.lineTo(px,py);}c.stroke();}for(let y=0;y<8;y++){c.beginPath();for(let x=0;x<=cols;x++){const px=x*(w/cols)+Math.sin(y*0.5+t*0.01+x*0.3)*15,py=y*(h/7);x===0?c.moveTo(px,py):c.lineTo(px,py);}c.stroke();}c.globalAlpha=1;}},
+{title:"Portrait en code",desc:"Un visage abstrait construit avec des primitives géométriques et du bruit. L'algorithme portraiture.",tech:["generative face","primitives","noise"],color:"#00ffaa",draw:(c,w,h,t)=>{const cx=w/2,cy=h/2;c.strokeStyle='#00ffaa';c.lineWidth=0.8;c.globalAlpha=0.7;c.beginPath();c.ellipse(cx,cy,60,80,0,0,Math.PI*2);c.stroke();c.beginPath();c.ellipse(cx-20,cy-15,12,8,0,0,Math.PI*2);c.stroke();c.beginPath();c.ellipse(cx+20,cy-15,12,8,0,0,Math.PI*2);c.stroke();c.beginPath();c.arc(cx,cy+20,20,0.2,Math.PI-0.2);c.stroke();c.globalAlpha=0.3;c.fillStyle='#00ffaa';c.beginPath();c.ellipse(cx,cy-35,5+Math.sin(t*0.02)*2,5,0,0,Math.PI*2);c.fill();c.globalAlpha=1;}},
+{title:"BILAN — 31 JOURS",desc:"Le sketch final — une rétrospective. Tous les éléments des 30 jours coexistent dans une composition finale chaotique et générative.",tech:["synthesis","all techniques","retrospective"],color:"#ffffff",draw:(c,w,h,t)=>{const cols=['#00ff41','#ff00ff','#00ffff','#ff6600','#ffff00','#ff0066'];for(let i=0;i<12;i++){c.strokeStyle=cols[i%6];c.globalAlpha=0.3;c.lineWidth=0.5;c.beginPath();c.arc(w/2+Math.cos(t*0.005+i)*80,h/2+Math.sin(t*0.007+i)*60,20+i*8,0,Math.PI*2);c.stroke();}c.font='bold 14px monospace';c.fillStyle='#fff';c.globalAlpha=0.6;c.textAlign='center';c.fillText('31 DAYS',w/2,h/2+5);c.globalAlpha=1;}}
 ];
 
-const colors = [
-  '#00ff41','#ff00ff','#00ffff','#ff6600','#ffff00',
-  '#ff0066','#66ff00','#0066ff','#ff6600','#00ff99',
-  '#ff0099','#99ff00','#0099ff','#ff9900','#00ffcc',
-  '#cc00ff','#ffcc00','#00ccff','#ff00cc','#ccff00',
-  '#00ff66','#ff6600','#6600ff','#ff0066','#00ff41',
-  '#ff00ff','#00ffff','#ffaa00','#aa00ff','#00ffaa','#ffffff'
-];
+let currentDay=0,animFrame=null,tick=0;
 
-// ===== GENERATE GRID =====
-const grid = document.getElementById('grid');
-for (let i = 1; i <= 31; i++) {
-  const card = document.createElement('div');
-  card.className = 'card';
-  card.setAttribute('data-day', i);
-
-  const canvas = document.createElement('canvas');
-  canvas.className = 'card-canvas';
-  canvas.width = 200;
-  canvas.height = 200;
-
-  const info = document.createElement('div');
-  info.className = 'card-info';
-  info.innerHTML = `
-    <div class="card-num">DAY ${String(i).padStart(2,'0')}</div>
-    <div class="card-title${i <= 31 ? ' loaded' : ''}">${prompts[i-1]}</div>
-  `;
-
-  const dayLabel = document.createElement('div');
-  dayLabel.className = 'card-day';
-  dayLabel.textContent = String(i).padStart(2,'0');
-
-  card.appendChild(canvas);
-  card.appendChild(dayLabel);
-  card.appendChild(info);
+// Build grid
+const grid=document.getElementById('grid');
+days.forEach((day,i)=>{
+  const card=document.createElement('div');
+  card.className='card';
+  const canvas=document.createElement('canvas');
+  canvas.className='card-canvas';
+  canvas.width=200;canvas.height=200;
+  const dayLabel=document.createElement('div');
+  dayLabel.className='card-day';
+  dayLabel.textContent=String(i+1).padStart(2,'0');
+  const info=document.createElement('div');
+  info.className='card-info';
+  info.innerHTML=`<div class="card-num">DAY ${String(i+1).padStart(2,'0')}</div><div class="card-title">${day.title}</div>`;
+  const hover=document.createElement('div');
+  hover.className='card-hover';
+  hover.innerHTML='<span>VOIR</span>';
+  card.appendChild(canvas);card.appendChild(dayLabel);card.appendChild(info);card.appendChild(hover);
+  card.onclick=()=>openModal(i);
   grid.appendChild(card);
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#050505';ctx.fillRect(0,0,200,200);
+  day.draw(ctx,200,200,i*50);
+});
 
-  drawSketch(canvas, i, colors[i-1]);
+function openModal(idx){
+  currentDay=idx;
+  const day=days[idx];
+  document.getElementById('modal').classList.add('open');
+  document.getElementById('modal-day').textContent=`DAY ${String(idx+1).padStart(2,'0')} / 31`;
+  document.getElementById('modal-title').textContent=day.title;
+  document.getElementById('modal-desc').textContent=day.desc;
+  document.getElementById('modal-tech').innerHTML=day.tech.map(t=>`<span>${t}</span>`).join('');
+  tick=0;
+  if(animFrame)cancelAnimationFrame(animFrame);
+  animate();
 }
 
-function drawSketch(canvas, day, color) {
-  const ctx = canvas.getContext('2d');
-  const w = canvas.width, h = canvas.height;
-  ctx.fillStyle = '#050505';
-  ctx.fillRect(0,0,w,h);
-
-  const r = parseInt(color.slice(1,3),16);
-  const g = parseInt(color.slice(3,5),16);
-  const b = parseInt(color.slice(5,7),16);
-
-  const seed = day * 137.508;
-  const rand = (n) => Math.abs(Math.sin(seed * n) * 43758.5453) % 1;
-
-  ctx.strokeStyle = color;
-  ctx.fillStyle = `rgba(${r},${g},${b},0.15)`;
-
-  const type = day % 6;
-  if (type === 0) {
-    for (let i = 0; i < 8; i++) {
-      ctx.lineWidth = rand(i+1) * 1.5 + 0.3;
-      ctx.globalAlpha = rand(i+2) * 0.6 + 0.2;
-      ctx.beginPath();
-      ctx.moveTo(rand(i+3)*w, rand(i+4)*h);
-      ctx.lineTo(rand(i+5)*w, rand(i+6)*h);
-      ctx.stroke();
-    }
-  } else if (type === 1) {
-    for (let i = 0; i < 5; i++) {
-      ctx.globalAlpha = rand(i+1) * 0.4 + 0.1;
-      ctx.lineWidth = 0.5;
-      ctx.beginPath();
-      ctx.arc(w/2, h/2, (i+1) * 18, 0, Math.PI*2);
-      ctx.stroke();
-    }
-  } else if (type === 2) {
-    const cols = 8, rows = 8;
-    for (let x = 0; x < cols; x++) {
-      for (let y = 0; y < rows; y++) {
-        ctx.globalAlpha = rand(x*rows+y+1) * 0.5 + 0.05;
-        ctx.fillRect(x*(w/cols)+1, y*(h/rows)+1, w/cols-2, h/rows-2);
-      }
-    }
-  } else if (type === 3) {
-    ctx.lineWidth = 0.8;
-    for (let i = 0; i < 30; i++) {
-      ctx.globalAlpha = rand(i+1) * 0.4 + 0.1;
-      ctx.beginPath();
-      const x = rand(i+2)*w, y = rand(i+3)*h;
-      const r2 = rand(i+4)*30+5;
-      ctx.arc(x, y, r2, 0, Math.PI*2);
-      ctx.stroke();
-    }
-  } else if (type === 4) {
-    ctx.lineWidth = 0.6;
-    for (let i = 0; i < 12; i++) {
-      ctx.globalAlpha = rand(i+1) * 0.5 + 0.1;
-      ctx.beginPath();
-      const sides = Math.floor(rand(i+2)*4)+3;
-      const cx = rand(i+3)*w, cy = rand(i+4)*h;
-      const r2 = rand(i+5)*30+10;
-      for (let j = 0; j <= sides; j++) {
-        const angle = (j/sides)*Math.PI*2 - Math.PI/2;
-        if (j===0) ctx.moveTo(cx+Math.cos(angle)*r2, cy+Math.sin(angle)*r2);
-        else ctx.lineTo(cx+Math.cos(angle)*r2, cy+Math.sin(angle)*r2);
-      }
-      ctx.closePath();
-      ctx.stroke();
-    }
-  } else {
-    ctx.lineWidth = 0.5;
-    for (let i = 0; i < 6; i++) {
-      ctx.globalAlpha = rand(i+1) * 0.4 + 0.1;
-      ctx.beginPath();
-      const x1=rand(i+2)*w, y1=rand(i+3)*h;
-      const x2=rand(i+4)*w, y2=rand(i+5)*h;
-      const cx1=rand(i+6)*w, cy1=rand(i+7)*h;
-      ctx.moveTo(x1,y1);
-      ctx.quadraticCurveTo(cx1,cy1,x2,y2);
-      ctx.stroke();
-    }
-  }
-  ctx.globalAlpha = 1;
+function animate(){
+  const canvas=document.getElementById('modal-canvas');
+  const ctx=canvas.getContext('2d');
+  ctx.fillStyle='#050505';ctx.fillRect(0,0,400,400);
+  days[currentDay].draw(ctx,400,400,tick);
+  tick++;
+  animFrame=requestAnimationFrame(animate);
 }
 
-// ===== CHATBOT =====
-const responses = {
-  'genuary': "Genuary c'est un événement créatif annuel en janvier. Chaque jour = 1 prompt = 1 sketch génératif. Ilias a fait les <em>31 jours de Genuary 2026</em> avec p5.js !",
-  'p5': "Ilias utilise <em>p5.js</em> — une librairie JavaScript pour le creative coding. C'est basé sur Processing et parfait pour créer de l'art génératif dans le browser.",
-  'ilias': "Ilias Bounabat est étudiant en design interactif au <em>Pôle Léonard de Vinci</em> à Paris. Il code de l'art génératif et explore la frontière entre technologie et esthétique.",
-  'contact': "📧 <em>ilias.bounabat@edu.devinci.fr</em><br>⌥ <em>github.com/ilias-ma</em><br>📍 Pôle Léonard de Vinci, Paris",
-  'favori': "Le projet favori d'Ilias sur ce site c'est le <em>Jour 8 : Erreur comme esthétique</em> — il a transformé les bugs et glitchs en langage visuel. Le chaos devient beauté.",
-  'code': "Tous les sketches sont en <em>p5.js</em>. Ilias explore : champs de vecteurs, bruit de Perlin, automates cellulaires, fractales, et simulations physiques. Chaque jour une nouvelle contrainte.",
-  'art': "L'art génératif c'est créer des règles qui créent de l'art. L'algorithme peint, l'artiste programme. <em>Le code est un pinceau.</em>",
-  'github': "Tu peux retrouver tous les projets sur <em>github.com/ilias-ma</em> — tous les sketches Genuary 2026 sont disponibles en open source.",
-  'bonjour': "Salut ! Je suis GEN_BOT, l'assistant de <em>Ilias Bounabat</em>. Pose-moi des questions sur les projets Genuary 2026 ⚡",
-  'salut': "Hey ! Bienvenue sur le site de <em>Ilias Bounabat</em>. 31 sketches génératifs en p5.js t'attendent !",
-  'projet': "31 projets, 31 jours ! Chaque sketch explore une technique différente : <em>grilles, particules, fractales, symétrie, bruit, réaction-diffusion</em>... Clique sur un projet pour voir !",
-};
+function closeModal(){document.getElementById('modal').classList.remove('open');if(animFrame)cancelAnimationFrame(animFrame);}
+function navigate(dir){currentDay=(currentDay+dir+31)%31;openModal(currentDay);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if(e.key==='ArrowRight')navigate(1);if(e.key==='ArrowLeft')navigate(-1);});
 
-const fallbacks = [
-  "Je connais surtout les projets Genuary d'Ilias... Essaie de me demander son <em>projet favori</em>, son <em>contact</em>, ou ce qu'est <em>Genuary</em> !",
-  "Hm, ça dépasse mes connaissances. Je suis spécialisé dans le Genuary 2026 d'Ilias. Demande-moi son <em>contact</em> ou ses <em>techniques</em> !",
-  "Je ne suis pas une IA, juste un bot simple ! Mais je peux te parler de <em>p5.js</em>, de <em>Genuary</em>, ou d'<em>Ilias</em> 😄"
-];
-
-let fallbackIdx = 0;
-
-function getResponse(msg) {
-  const m = msg.toLowerCase();
-  for (const [key, val] of Object.entries(responses)) {
-    if (m.includes(key)) return val;
-  }
-  const r = fallbacks[fallbackIdx % fallbacks.length];
-  fallbackIdx++;
-  return r;
-}
-
-function addMessage(text, sender) {
-  const msgs = document.getElementById('chat-messages');
-  const div = document.createElement('div');
-  div.className = `msg ${sender}`;
-  div.innerHTML = `
-    <div class="msg-label">${sender === 'bot' ? 'GEN_BOT' : 'YOU'} // ${new Date().toLocaleTimeString('fr',{hour:'2-digit',minute:'2-digit'})}</div>
-    <div class="msg-bubble">${text}</div>
-  `;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-
-function sendMessage() {
-  const input = document.getElementById('chat-input');
-  const msg = input.value.trim();
-  if (!msg) return;
-  addMessage(msg, 'user');
-  input.value = '';
-  setTimeout(() => {
-    addMessage(getResponse(msg), 'bot');
-  }, 400);
-}
-
-function sendSuggestion(msg) {
-  addMessage(msg, 'user');
-  setTimeout(() => {
-    addMessage(getResponse(msg), 'bot');
-  }, 400);
-}
-
-let chatOpen = false;
-function toggleChat() {
-  chatOpen = !chatOpen;
-  document.getElementById('chatbox').classList.toggle('open', chatOpen);
-  document.getElementById('chat-toggle').textContent = chatOpen ? '✕' : '⌘';
-}
+// Chatbot
+const responses={'genuary':"Genuary c'est un événement créatif annuel en janvier. Chaque jour = 1 prompt = 1 sketch génératif. Ilias a fait les <em>31 jours de Genuary 2026</em> avec p5.js !",'p5':"Ilias utilise <em>p5.js</em> — une librairie JavaScript pour le creative coding. Parfait pour créer de l'art génératif dans le browser.",'ilias':"Ilias Bounabat est étudiant en design interactif au <em>Pôle Léonard de Vinci</em> à Paris. Il code de l'art génératif.",'favori':"Le projet favori d'Ilias c'est le <em>Jour 8 : Erreur comme esthétique</em> — les bugs deviennent art. Le chaos intentionnel.",'code':"Tous les sketches sont en <em>p5.js</em>. Techniques : Perlin, automates cellulaires, fractales, physique, vecteurs...",'art':"L'art génératif c'est coder des règles qui créent de l'art. <em>Le code est un pinceau.</em>",'github':"Tout le code est sur <em>github.com/ILIAS-ma</em> — open source !",'bonjour':"Salut ! Je suis GEN_BOT. Pose-moi des questions sur Genuary 2026 ⚡",'salut':"Hey ! <em>31 sketches génératifs</em> t'attendent — clique sur une carte !",'contact':"GitHub : <em>github.com/ILIAS-ma</em> — Eden.art : <em>ilias-genuary-bot</em>"};
+const fallbacks=["Essaie : <em>Genuary</em>, <em>projet favori</em>, ou <em>contact</em> !","Je suis spécialisé Genuary 2026. Demande-moi les <em>techniques</em> utilisées !","Je ne suis pas une IA ! Mais je connais les <em>31 sketches</em> d'Ilias 😄"];
+let fi=0;
+function getResponse(msg){const m=msg.toLowerCase();for(const[k,v]of Object.entries(responses)){if(m.includes(k))return v;}return fallbacks[fi++%fallbacks.length];}
+function addMessage(text,sender){const msgs=document.getElementById('chat-messages');const div=document.createElement('div');div.className=`msg ${sender}`;div.innerHTML=`<div class="msg-label">${sender==='bot'?'GEN_BOT':'YOU'} // ${new Date().toLocaleTimeString('fr',{hour:'2-digit',minute:'2-digit'})}</div><div class="msg-bubble">${text}</div>`;msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;}
+function sendMessage(){const input=document.getElementById('chat-input');const msg=input.value.trim();if(!msg)return;addMessage(msg,'user');input.value='';setTimeout(()=>addMessage(getResponse(msg),'bot'),400);}
+function sendSuggestion(msg){addMessage(msg,'user');setTimeout(()=>addMessage(getResponse(msg),'bot'),400);}
+let chatOpen=false;
+function toggleChat(){chatOpen=!chatOpen;document.getElementById('chatbox').classList.toggle('open',chatOpen);document.getElementById('chat-toggle').textContent=chatOpen?'✕':'⌘';}
 </script>
 </body>
 </html>
