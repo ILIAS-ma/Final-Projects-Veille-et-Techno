@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Small Zine — Ilias Bounabat</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Bebas+Neue&family=Share+Tech+Mono&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .print-hint {
+    color: #0f0;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    margin-bottom: 1rem;
+    text-align: center;
+    letter-spacing: 2px;
+  }
+
+  /* The zine sheet — A4 landscape */
+  .zine-sheet {
+    width: 297mm;
+    height: 210mm;
+    background: #0a0a0a;
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr 1fr;
+    border: 1px solid #333;
+    overflow: hidden;
+  }
+
+  /* Cut line in the middle */
+  .cut-line {
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    right: 0;
+    height: 0;
+    border-top: 2px dashed #444;
+    z-index: 10;
+    pointer-events: none;
+  }
+  .cut-line::before {
+    content: '✂';
+    position: absolute;
+    left: -1px;
+    top: -12px;
+    font-size: 18px;
+    color: #666;
+  }
+  .cut-line::after {
+    content: '✂';
+    position: absolute;
+    right: -1px;
+    top: -12px;
+    font-size: 18px;
+    color: #666;
+    transform: scaleX(-1);
+  }
+
+  /* All 8 panels */
+  .panel {
+    border: 1px solid #1a1a1a;
+    padding: 10px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* PANEL positions per the mini-zine template:
+     Top row (L→R):    p6 | p5 | p4 | p3
+     Bottom row (L→R): back | front | p1 | p2
+  */
+
+  /* ===================== FRONT COVER ===================== */
+  .front-cover {
+    background: #0a0a0a;
+    border: 1px solid #0f0 !important;
+  }
+  .front-cover .glitch-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: #0f0;
+    line-height: 1;
+    text-shadow: 2px 0 #f0f, -2px 0 #0ff;
+    letter-spacing: 2px;
+  }
+  .front-cover .sub {
+    font-size: 8px;
+    color: #666;
+    letter-spacing: 3px;
+    margin-top: 4px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .front-cover .big-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px;
+    color: #fff;
+    line-height: 0.9;
+    text-shadow: 3px 0 #f0f;
+  }
+  .front-cover .tag {
+    font-size: 7px;
+    color: #0f0;
+    letter-spacing: 2px;
+    border-top: 1px solid #0f0;
+    padding-top: 4px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .scanlines {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,255,0,0.02) 2px,
+      rgba(0,255,0,0.02) 4px
+    );
+    pointer-events: none;
+  }
+  .corner-bracket {
+    position: absolute;
+    width: 12px; height: 12px;
+    border-color: #0f0;
+    border-style: solid;
+  }
+  .tl { top: 4px; left: 4px; border-width: 1px 0 0 1px; }
+  .tr { top: 4px; right: 4px; border-width: 1px 1px 0 0; }
+  .bl { bottom: 4px; left: 4px; border-width: 0 0 1px 1px; }
+  .br { bottom: 4px; right: 4px; border-width: 0 1px 1px 0; }
+
+  /* ===================== BACK COVER ===================== */
+  .back-cover {
+    background: #050505;
+    transform: rotate(180deg);
+  }
+  .back-cover .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: #0f0;
+    letter-spacing: 4px;
+  }
+  .back-cover .barcode {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 6px;
+    color: #333;
+    letter-spacing: 1px;
+    margin-top: 4px;
+  }
+  .back-cover .tagline {
+    font-size: 7px;
+    color: #555;
+    letter-spacing: 2px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  /* ===================== PAGE 1 — BIO ===================== */
+  .p1 {
+    background: #080808;
+  }
+  .section-label {
+    font-size: 7px;
+    letter-spacing: 3px;
+    color: #f0f;
+    font-family: 'Share Tech Mono', monospace;
+    margin-bottom: 4px;
+  }
+  .p1 h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .p1 p {
+    font-size: 7px;
+    color: #aaa;
+    line-height: 1.5;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .p1 .contact-block {
+    margin-top: 6px;
+    border-top: 1px solid #222;
+    padding-top: 5px;
+  }
+  .p1 .contact-item {
+    font-size: 6px;
+    color: #0f0;
+    letter-spacing: 1px;
+    font-family: 'Share Tech Mono', monospace;
+    margin: 2px 0;
+  }
+
+  /* ===================== PAGE 2 — CONTACT ===================== */
+  .p2 {
+    background: #0a0500;
+    transform: rotate(180deg);
+  }
+  .p2 h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 30px;
+    color: #f90;
+    text-shadow: 2px 0 #f00;
+    line-height: 1;
+  }
+  .p2 .info-row {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 8px;
+  }
+  .p2 .info-item {
+    font-size: 7px;
+    color: #aaa;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .p2 .info-item span {
+    color: #f90;
+    display: block;
+    font-size: 8px;
+  }
+  .p2 .github-link {
+    margin-top: 8px;
+    font-size: 8px;
+    color: #0f0;
+    font-family: 'Share Tech Mono', monospace;
+    border: 1px solid #0f0;
+    padding: 3px 6px;
+    display: inline-block;
+    letter-spacing: 1px;
+  }
+
+  /* ===================== PAGE 3 — GENUARY ===================== */
+  .p3 {
+    background: #000508;
+    transform: rotate(180deg);
+  }
+  .p3 h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: #0ff;
+    text-shadow: 2px 0 #f0f;
+    line-height: 1;
+    margin-bottom: 5px;
+  }
+  .p3 p {
+    font-size: 6.5px;
+    color: #888;
+    line-height: 1.5;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .p3 .highlight {
+    color: #0ff;
+    display: block;
+    margin-top: 4px;
+    font-size: 7px;
+  }
+  .p3 .num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: #0ff;
+    opacity: 0.15;
+    position: absolute;
+    bottom: 4px;
+    right: 6px;
+    line-height: 1;
+  }
+
+  /* ===================== PAGE 4 — GEN ART ===================== */
+  .p4 {
+    background: #08000a;
+    transform: rotate(180deg);
+  }
+  .p4 h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    color: #f0f;
+    text-shadow: 2px 0 #0ff;
+    line-height: 1;
+    margin-bottom: 5px;
+  }
+  .p4 p {
+    font-size: 6.5px;
+    color: #888;
+    line-height: 1.5;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .p4 .code-block {
+    margin-top: 6px;
+    background: #111;
+    border-left: 2px solid #f0f;
+    padding: 4px 6px;
+    font-size: 6px;
+    color: #f0f;
+    font-family: 'Share Tech Mono', monospace;
+    line-height: 1.6;
+  }
+
+  /* ===================== PAGE 5 — MANIFESTO ===================== */
+  .p5 {
+    background: #050800;
+    transform: rotate(180deg);
+  }
+  .p5 h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: #0f0;
+    line-height: 1;
+    margin-bottom: 5px;
+  }
+  .p5 .manifesto-lines {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .p5 .manifesto-lines li {
+    font-size: 6.5px;
+    color: #666;
+    font-family: 'Share Tech Mono', monospace;
+    padding-left: 8px;
+    border-left: 1px solid #0f0;
+    line-height: 1.4;
+  }
+  .p5 .manifesto-lines li.active {
+    color: #0f0;
+  }
+
+  /* ===================== PAGE 6 — GITHUB ===================== */
+  .p6 {
+    background: #000a08;
+    transform: rotate(180deg);
+  }
+  .p6 h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: #0f0;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .p6 .github-box {
+    background: #050505;
+    border: 1px solid #0f0;
+    padding: 6px;
+    font-family: 'Share Tech Mono', monospace;
+  }
+  .p6 .github-box .url {
+    font-size: 8px;
+    color: #0f0;
+    word-break: break-all;
+  }
+  .p6 .github-box .desc {
+    font-size: 6px;
+    color: #555;
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+  .p6 .qr-placeholder {
+    width: 40px;
+    height: 40px;
+    border: 1px solid #333;
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    grid-template-rows: repeat(5,1fr);
+    gap: 1px;
+    margin-top: 8px;
+    padding: 3px;
+  }
+  .qr-cell {
+    background: #0f0;
+    opacity: var(--o, 1);
+  }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .print-hint { display: none; }
+    .zine-sheet {
+      width: 297mm;
+      height: 210mm;
+      border: none;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="print-hint">⚡ CTRL+P TO PRINT — A4 LANDSCAPE — CUT THE DASHED LINE IN THE MIDDLE ⚡</div>
+
+<div class="zine-sheet">
+
+  <!-- CUT LINE (center horizontal, between col 2 and 3) -->
+  <div class="cut-line"></div>
+
+  <!-- TOP ROW: p6 | p5 | p4 | p3 (all rotated 180°) -->
+
+  <!-- PAGE 6: GITHUB (top-left, rotated) -->
+  <div class="panel p6">
+    <div>
+      <div class="section-label">// FIND ME //</div>
+      <h2>GITHUB</h2>
+      <div class="github-box">
+        <div class="url">github.com/ilias-ma</div>
+        <div class="desc">Repos de code génératif,<br>sketches p5.js, expérimentations<br>créatives et projets Genuary 2026.</div>
+      </div>
+    </div>
+    <div class="qr-placeholder">
+      <div class="qr-cell" style="--o:1"></div><div class="qr-cell" style="--o:0"></div><div class="qr-cell" style="--o:1"></div><div class="qr-cell" style="--o:1"></div><div class="qr-cell" style="--o:0"></div>
+      <div class="qr-cell" style="--o:1"></div><div class="qr-cell" style="--o:1"></div><div class="qr-cell" style="--o:0"></div><div class="qr-cell" style="--o:0"></div><div class="qr-cell" style="--o:1"></div>
+      <div class="qr-cell" style="--o:0"></div><div class="qr-cell" style="--o:1"></div><div class="qr-cell" style="--o:1"></div><div class="qr-cell" style="--o:0"></div><div class="qr-cell" style="--o:1"></div>
+      <div class="qr-cell" style="--o:1"></div><div class="qr-cell" style="--o:0"></div><div class="qr-cell" style="--o:0"></div><div class="qr-cell" style="--o:1"></div><div class="qr-cell" style="--o:0"></div>
+      <div class="qr-cell" style="--o:0"></div><div class="qr-cell" style="--o:1"></div><div class="qr-cell" style="--o:1"></div><div class="qr-cell" style="--o:0"></div><div class="qr-cell" style="--o:1"></div>
+    </div>
+  </div>
+
+  <!-- PAGE 5: MANIFESTO (top, 2nd col, rotated) -->
+  <div class="panel p5">
+    <div class="section-label">// MANIFESTE //</div>
+    <h2>CODE<br>AS ART</h2>
+    <ul class="manifesto-lines">
+      <li class="active">Le code est un pinceau.</li>
+      <li>L'aléatoire est une intention.</li>
+      <li class="active">Chaque bug est une découverte.</li>
+      <li>Le système crée, l'artiste guide.</li>
+      <li class="active">31 jours. 31 univers.</li>
+      <li>L'art génératif ne se répète jamais.</li>
+    </ul>
+  </div>
+
+  <!-- PAGE 4: GEN ART INFO (top, 3rd col, rotated) -->
+  <div class="panel p4">
+    <div class="section-label">// GEN ART //</div>
+    <h2>ART<br>GÉNÉRATIF</h2>
+    <p>L'art génératif utilise des algorithmes et du code pour créer des œuvres visuelles. Chaque exécution produit quelque chose d'unique.</p>
+    <div class="code-block">
+      function setup() {<br>
+      &nbsp;&nbsp;createCanvas(400,400);<br>
+      &nbsp;&nbsp;background(0);<br>
+      }<br>
+      function draw() {<br>
+      &nbsp;&nbsp;// la machine peint<br>
+      }
+    </div>
+  </div>
+
+  <!-- PAGE 3: GENUARY (top-right, rotated) -->
+  <div class="panel p3">
+    <div class="section-label">// PROJET //</div>
+    <h2>GENUARY<br>2026</h2>
+    <p>31 prompts créatifs. 31 sketches p5.js. Un défi de code génératif pour le mois de janvier — chaque jour un nouveau prompt, une nouvelle contrainte visuelle.</p>
+    <span class="highlight">→ Voir le site complet</span>
+    <div class="num">31</div>
+  </div>
+
+  <!-- BOTTOM ROW: back | front | p1 | p2 -->
+
+  <!-- BACK COVER (bottom-left) -->
+  <div class="panel back-cover">
+    <div class="logo">ILIAS.ART</div>
+    <div>
+      <div class="tagline">ZINE V1 — GENUARY 2026</div>
+      <div class="barcode">| || ||| | || ||| | || ||| | || ||| | || |||</div>
+      <div class="tagline" style="margin-top:4px; font-size:6px;">MADE WITH p5.js + CODE + CHAOS</div>
+    </div>
+  </div>
+
+  <!-- FRONT COVER (bottom, 2nd col) -->
+  <div class="panel front-cover">
+    <div class="scanlines"></div>
+    <div class="corner-bracket tl"></div>
+    <div class="corner-bracket tr"></div>
+    <div class="corner-bracket bl"></div>
+    <div class="corner-bracket br"></div>
+    <div>
+      <div class="glitch-title">ZINE_01</div>
+      <div class="sub">// ART GÉNÉRATIF //</div>
+    </div>
+    <div class="big-name">ILIAS<br>BOUN<br>ABAT</div>
+    <div class="tag">GENUARY 2026 — p5.js — CREATIVE CODING</div>
+  </div>
+
+  <!-- PAGE 1: BIO (bottom, 3rd col) -->
+  <div class="panel p1">
+    <div>
+      <div class="section-label">// À PROPOS //</div>
+      <h2>QUI<br>SUIS-JE ?</h2>
+      <p>Étudiant en design interactif et creative coding. Je crée des expériences visuelles à la frontière entre l'art et la technologie — utilisant p5.js, des algorithmes génératifs, et le chaos contrôlé du code.</p>
+    </div>
+    <div class="contact-block">
+      <div class="contact-item">✉ ilias.bounabat@edu.devinci.fr</div>
+      <div class="contact-item">⌥ github.com/ilias-ma</div>
+      <div class="contact-item">◈ PARIS — DEVINCI</div>
+    </div>
+  </div>
+
+  <!-- PAGE 2: CONTACT (bottom-right) -->
+  <div class="panel p2">
+    <div class="section-label">// CONTACT //</div>
+    <h2>GET IN<br>TOUCH</h2>
+    <div class="info-row">
+      <div class="info-item">
+        EMAIL
+        <span>ilias.bounabat@edu.devinci.fr</span>
+      </div>
+      <div class="info-item">
+        GITHUB
+        <span>github.com/ilias-ma</span>
+      </div>
+      <div class="info-item">
+        ÉCOLE
+        <span>Pôle Léonard de Vinci</span>
+      </div>
+    </div>
+    <div class="github-link">→ github.com/ilias-ma</div>
+  </div>
+
+</div>
+
+</body>
+</html>

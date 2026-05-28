@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ILIAS.MA — GENUARY 2026</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=Share+Tech+Mono&display=swap');
+
+:root {
+  --green: #00ff41;
+  --pink: #ff00ff;
+  --cyan: #00ffff;
+  --orange: #ff6600;
+  --bg: #050505;
+  --bg2: #0a0a0a;
+  --border: #1a1a1a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg);
+  color: #ccc;
+  font-family: 'Space Mono', monospace;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* ===== SCANLINE OVERLAY ===== */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,255,65,0.015) 2px,
+    rgba(0,255,65,0.015) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ===== HEADER ===== */
+header {
+  border-bottom: 1px solid var(--border);
+  padding: 1.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  background: rgba(5,5,5,0.95);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+}
+
+.logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: var(--green);
+  text-shadow: 0 0 20px var(--green), 2px 0 var(--pink);
+  letter-spacing: 4px;
+  animation: glitch 4s infinite;
+}
+
+@keyframes glitch {
+  0%, 90%, 100% { text-shadow: 0 0 20px var(--green), 2px 0 var(--pink); transform: translate(0); }
+  92% { text-shadow: -2px 0 var(--pink), 2px 0 var(--cyan); transform: translate(-2px, 0); }
+  94% { text-shadow: 2px 0 var(--cyan), -2px 0 var(--pink); transform: translate(2px, 0); }
+  96% { text-shadow: 0 0 20px var(--green); transform: translate(0); }
+}
+
+.header-info {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  color: #444;
+  text-align: right;
+  letter-spacing: 2px;
+  line-height: 1.8;
+}
+
+.header-info span { color: var(--green); }
+
+/* ===== HERO ===== */
+.hero {
+  padding: 4rem 2rem 2rem;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: 'GENUARY';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20vw;
+  color: rgba(0,255,65,0.03);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.hero h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(3rem, 8vw, 7rem);
+  line-height: 0.9;
+  color: #fff;
+  letter-spacing: -2px;
+}
+
+.hero h1 .accent { color: var(--green); }
+.hero h1 .accent2 { color: var(--pink); }
+
+.hero-sub {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.75rem;
+  color: #555;
+  margin-top: 1.5rem;
+  letter-spacing: 3px;
+  line-height: 2;
+}
+
+.hero-sub em { color: var(--cyan); font-style: normal; }
+
+.status-bar {
+  margin-top: 2rem;
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stat-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.5rem;
+  color: var(--green);
+  line-height: 1;
+}
+
+.stat-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  color: #444;
+  letter-spacing: 2px;
+}
+
+/* ===== GRID ===== */
+.section-header {
+  padding: 2rem 2rem 1rem;
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-header h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.5rem;
+  color: var(--pink);
+  letter-spacing: 4px;
+}
+
+.section-header .hint {
+  font-size: 0.65rem;
+  color: #333;
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 2px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  margin: 0;
+  padding: 0;
+}
+
+.card {
+  background: var(--bg);
+  aspect-ratio: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1rem;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+.card:hover {
+  background: #0d0d0d;
+}
+
+.card:hover .card-canvas {
+  opacity: 1;
+}
+
+.card-day {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.5rem;
+  color: rgba(255,255,255,0.06);
+  line-height: 1;
+  position: absolute;
+  top: 8px;
+  right: 10px;
+}
+
+.card-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+
+.card-info {
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+}
+
+.card-num {
+  font-size: 0.6rem;
+  color: var(--green);
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 2px;
+}
+
+.card-title {
+  font-size: 0.75rem;
+  color: #888;
+  font-family: 'Share Tech Mono', monospace;
+  margin-top: 2px;
+  line-height: 1.3;
+}
+
+.card-title.loaded {
+  color: #eee;
+}
+
+/* ===== CHATBOT ===== */
+#chat-toggle {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 56px;
+  height: 56px;
+  background: var(--bg2);
+  border: 1px solid var(--green);
+  color: var(--green);
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  box-shadow: 0 0 20px rgba(0,255,65,0.3);
+  transition: all 0.2s;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(0,255,65,0.3); }
+  50% { box-shadow: 0 0 30px rgba(0,255,65,0.6); }
+}
+
+#chat-toggle:hover {
+  background: rgba(0,255,65,0.1);
+}
+
+#chatbox {
+  position: fixed;
+  bottom: 6rem;
+  right: 2rem;
+  width: 340px;
+  height: 460px;
+  background: #070707;
+  border: 1px solid var(--green);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  box-shadow: 0 0 40px rgba(0,255,65,0.2);
+  transform: scale(0.95) translateY(10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.2s ease;
+}
+
+#chatbox.open {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.chat-header {
+  background: #0a0f0a;
+  border-bottom: 1px solid #1a2a1a;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.chat-avatar {
+  width: 28px;
+  height: 28px;
+  border: 1px solid var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.chat-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1rem;
+  color: var(--green);
+  letter-spacing: 2px;
+}
+
+.chat-status {
+  font-size: 0.55rem;
+  color: #444;
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 1px;
+}
+
+.chat-status::before {
+  content: '● ';
+  color: var(--green);
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  scrollbar-width: thin;
+  scrollbar-color: #1a1a1a transparent;
+}
+
+.msg {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-width: 85%;
+}
+
+.msg.bot { align-self: flex-start; }
+.msg.user { align-self: flex-end; }
+
+.msg-label {
+  font-size: 0.5rem;
+  color: #333;
+  font-family: 'Share Tech Mono', monospace;
+  letter-spacing: 1px;
+}
+
+.msg.bot .msg-label { color: #2a5a2a; }
+.msg.user .msg-label { color: #444; text-align: right; }
+
+.msg-bubble {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.7rem;
+  line-height: 1.5;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.msg.bot .msg-bubble {
+  background: #0a150a;
+  border: 1px solid #1a2a1a;
+  color: #aaa;
+  border-left: 2px solid var(--green);
+}
+
+.msg.user .msg-bubble {
+  background: #150a15;
+  border: 1px solid #2a1a2a;
+  color: #ccc;
+  border-right: 2px solid var(--pink);
+  text-align: right;
+}
+
+.msg.bot .msg-bubble em {
+  color: var(--green);
+  font-style: normal;
+}
+
+.chat-input-area {
+  border-top: 1px solid #1a2a1a;
+  padding: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  background: #060606;
+}
+
+.chat-suggestions {
+  padding: 0 0.75rem 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.suggestion-btn {
+  background: transparent;
+  border: 1px solid #1a2a1a;
+  color: #444;
+  font-size: 0.55rem;
+  font-family: 'Share Tech Mono', monospace;
+  padding: 3px 7px;
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.5px;
+}
+
+.suggestion-btn:hover {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+#chat-input {
+  flex: 1;
+  background: #0a0a0a;
+  border: 1px solid #1a2a1a;
+  color: var(--green);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  padding: 0.5rem;
+  outline: none;
+  letter-spacing: 1px;
+}
+
+#chat-input:focus {
+  border-color: var(--green);
+}
+
+#chat-send {
+  background: transparent;
+  border: 1px solid var(--green);
+  color: var(--green);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.9rem;
+  padding: 0 0.75rem;
+  cursor: pointer;
+  letter-spacing: 2px;
+  transition: all 0.15s;
+}
+
+#chat-send:hover {
+  background: rgba(0,255,65,0.1);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-left .name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: var(--green);
+  letter-spacing: 4px;
+  line-height: 1;
+}
+
+.footer-left .contact {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  color: #333;
+  margin-top: 6px;
+  line-height: 1.8;
+  letter-spacing: 1px;
+}
+
+.footer-left .contact a {
+  color: var(--green);
+  text-decoration: none;
+}
+
+.footer-right {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  color: #222;
+  text-align: right;
+  letter-spacing: 2px;
+  line-height: 2;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">ILIAS.MA</div>
+  <div class="header-info">
+    GENUARY <span>2026</span><br>
+    31 PROMPTS — 31 SKETCHES<br>
+    <span>p5.js</span> — CREATIVE CODING
+  </div>
+</header>
+
+<section class="hero">
+  <h1>
+    <span class="accent">GEN</span>UARY<br>
+    <span class="accent2">20</span>26
+  </h1>
+  <div class="hero-sub">
+    31 JOURS — 31 PROMPTS — 31 UNIVERS GÉNÉRATIFS<br>
+    PAR <em>ILIAS BOUNABAT</em> — DEVINCI / PARIS
+  </div>
+  <div class="status-bar">
+    <div class="stat">
+      <div class="stat-num">31</div>
+      <div class="stat-label">SKETCHES</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">p5.js</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">ITERATIONS</div>
+    </div>
+  </div>
+</section>
+
+<div class="section-header">
+  <h2>// PROJETS //</h2>
+  <span class="hint">→ CLIQUER POUR VOIR LE CODE</span>
+</div>
+
+<div class="grid" id="grid"></div>
+
+<footer>
+  <div class="footer-left">
+    <div class="name">ILIAS BOUNABAT</div>
+    <div class="contact">
+      ✉ <a href="mailto:ilias.bounabat@edu.devinci.fr">ilias.bounabat@edu.devinci.fr</a><br>
+      ⌥ <a href="https://github.com/ilias-ma" target="_blank">github.com/ilias-ma</a><br>
+      ◈ PÔLE LÉONARD DE VINCI — PARIS
+    </div>
+  </div>
+  <div class="footer-right">
+    GENUARY 2026<br>
+    CREATIVE CODING<br>
+    ALL RIGHTS RESERVED
+  </div>
+</footer>
+
+<!-- CHATBOT TOGGLE -->
+<button id="chat-toggle" onclick="toggleChat()" title="Parler à l'assistant">⌘</button>
+
+<!-- CHATBOX -->
+<div id="chatbox">
+  <div class="chat-header">
+    <div class="chat-avatar">G</div>
+    <div>
+      <div class="chat-name">GEN_BOT</div>
+      <div class="chat-status">ONLINE — GENUARY 2026</div>
+    </div>
+  </div>
+  <div class="chat-messages" id="chat-messages">
+    <div class="msg bot">
+      <div class="msg-label">GEN_BOT // INIT</div>
+      <div class="msg-bubble">Salut ! Je suis le chatbot de <em>Ilias Bounabat</em>. Pose-moi des questions sur ses projets Genuary 2026, son code, ou son parcours. ⚡</div>
+    </div>
+  </div>
+  <div class="chat-suggestions">
+    <button class="suggestion-btn" onclick="sendSuggestion('C\'est quoi Genuary ?')">C'est quoi Genuary ?</button>
+    <button class="suggestion-btn" onclick="sendSuggestion('Ton projet favori ?')">Projet favori ?</button>
+    <button class="suggestion-btn" onclick="sendSuggestion('Qui est Ilias ?')">Qui est Ilias ?</button>
+    <button class="suggestion-btn" onclick="sendSuggestion('Contact info')">Contact</button>
+  </div>
+  <div class="chat-input-area">
+    <input type="text" id="chat-input" placeholder="> TYPE HERE_" maxlength="200"
+      onkeydown="if(event.key==='Enter')sendMessage()">
+    <button id="chat-send" onclick="sendMessage()">SEND</button>
+  </div>
+</div>
+
+<script>
+// ===== GENUARY PROMPTS =====
+const prompts = [
+  "Lignes en mouvement","Palette de 3 couleurs","Grille qui respire","Bruit de Perlin","Miroir & symétrie",
+  "Formes qui tombent","Cercles concentriques","Erreur comme esthétique","Ombre portée","Couleurs complémentaires",
+  "Particules magnétiques","Labyrinthe généré","Typographie animée","Boucles infinies","Fractale simple",
+  "Pixels bruités","Réaction-diffusion","Champ de vecteurs","Distorsion de grille","Motif islamique",
+  "Simulation physique","Automate cellulaire","Courbes de Bézier","Palette minimaliste","Texture organique",
+  "Formes géométriques","Peinture à l'encre","Son → visuel","Tissu numérique","Portrait en code","BILAN"
+];
+
+const colors = [
+  '#00ff41','#ff00ff','#00ffff','#ff6600','#ffff00',
+  '#ff0066','#66ff00','#0066ff','#ff6600','#00ff99',
+  '#ff0099','#99ff00','#0099ff','#ff9900','#00ffcc',
+  '#cc00ff','#ffcc00','#00ccff','#ff00cc','#ccff00',
+  '#00ff66','#ff6600','#6600ff','#ff0066','#00ff41',
+  '#ff00ff','#00ffff','#ffaa00','#aa00ff','#00ffaa','#ffffff'
+];
+
+// ===== GENERATE GRID =====
+const grid = document.getElementById('grid');
+for (let i = 1; i <= 31; i++) {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.setAttribute('data-day', i);
+
+  const canvas = document.createElement('canvas');
+  canvas.className = 'card-canvas';
+  canvas.width = 200;
+  canvas.height = 200;
+
+  const info = document.createElement('div');
+  info.className = 'card-info';
+  info.innerHTML = `
+    <div class="card-num">DAY ${String(i).padStart(2,'0')}</div>
+    <div class="card-title${i <= 31 ? ' loaded' : ''}">${prompts[i-1]}</div>
+  `;
+
+  const dayLabel = document.createElement('div');
+  dayLabel.className = 'card-day';
+  dayLabel.textContent = String(i).padStart(2,'0');
+
+  card.appendChild(canvas);
+  card.appendChild(dayLabel);
+  card.appendChild(info);
+  grid.appendChild(card);
+
+  drawSketch(canvas, i, colors[i-1]);
+}
+
+function drawSketch(canvas, day, color) {
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width, h = canvas.height;
+  ctx.fillStyle = '#050505';
+  ctx.fillRect(0,0,w,h);
+
+  const r = parseInt(color.slice(1,3),16);
+  const g = parseInt(color.slice(3,5),16);
+  const b = parseInt(color.slice(5,7),16);
+
+  const seed = day * 137.508;
+  const rand = (n) => Math.abs(Math.sin(seed * n) * 43758.5453) % 1;
+
+  ctx.strokeStyle = color;
+  ctx.fillStyle = `rgba(${r},${g},${b},0.15)`;
+
+  const type = day % 6;
+  if (type === 0) {
+    for (let i = 0; i < 8; i++) {
+      ctx.lineWidth = rand(i+1) * 1.5 + 0.3;
+      ctx.globalAlpha = rand(i+2) * 0.6 + 0.2;
+      ctx.beginPath();
+      ctx.moveTo(rand(i+3)*w, rand(i+4)*h);
+      ctx.lineTo(rand(i+5)*w, rand(i+6)*h);
+      ctx.stroke();
+    }
+  } else if (type === 1) {
+    for (let i = 0; i < 5; i++) {
+      ctx.globalAlpha = rand(i+1) * 0.4 + 0.1;
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.arc(w/2, h/2, (i+1) * 18, 0, Math.PI*2);
+      ctx.stroke();
+    }
+  } else if (type === 2) {
+    const cols = 8, rows = 8;
+    for (let x = 0; x < cols; x++) {
+      for (let y = 0; y < rows; y++) {
+        ctx.globalAlpha = rand(x*rows+y+1) * 0.5 + 0.05;
+        ctx.fillRect(x*(w/cols)+1, y*(h/rows)+1, w/cols-2, h/rows-2);
+      }
+    }
+  } else if (type === 3) {
+    ctx.lineWidth = 0.8;
+    for (let i = 0; i < 30; i++) {
+      ctx.globalAlpha = rand(i+1) * 0.4 + 0.1;
+      ctx.beginPath();
+      const x = rand(i+2)*w, y = rand(i+3)*h;
+      const r2 = rand(i+4)*30+5;
+      ctx.arc(x, y, r2, 0, Math.PI*2);
+      ctx.stroke();
+    }
+  } else if (type === 4) {
+    ctx.lineWidth = 0.6;
+    for (let i = 0; i < 12; i++) {
+      ctx.globalAlpha = rand(i+1) * 0.5 + 0.1;
+      ctx.beginPath();
+      const sides = Math.floor(rand(i+2)*4)+3;
+      const cx = rand(i+3)*w, cy = rand(i+4)*h;
+      const r2 = rand(i+5)*30+10;
+      for (let j = 0; j <= sides; j++) {
+        const angle = (j/sides)*Math.PI*2 - Math.PI/2;
+        if (j===0) ctx.moveTo(cx+Math.cos(angle)*r2, cy+Math.sin(angle)*r2);
+        else ctx.lineTo(cx+Math.cos(angle)*r2, cy+Math.sin(angle)*r2);
+      }
+      ctx.closePath();
+      ctx.stroke();
+    }
+  } else {
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i < 6; i++) {
+      ctx.globalAlpha = rand(i+1) * 0.4 + 0.1;
+      ctx.beginPath();
+      const x1=rand(i+2)*w, y1=rand(i+3)*h;
+      const x2=rand(i+4)*w, y2=rand(i+5)*h;
+      const cx1=rand(i+6)*w, cy1=rand(i+7)*h;
+      ctx.moveTo(x1,y1);
+      ctx.quadraticCurveTo(cx1,cy1,x2,y2);
+      ctx.stroke();
+    }
+  }
+  ctx.globalAlpha = 1;
+}
+
+// ===== CHATBOT =====
+const responses = {
+  'genuary': "Genuary c'est un événement créatif annuel en janvier. Chaque jour = 1 prompt = 1 sketch génératif. Ilias a fait les <em>31 jours de Genuary 2026</em> avec p5.js !",
+  'p5': "Ilias utilise <em>p5.js</em> — une librairie JavaScript pour le creative coding. C'est basé sur Processing et parfait pour créer de l'art génératif dans le browser.",
+  'ilias': "Ilias Bounabat est étudiant en design interactif au <em>Pôle Léonard de Vinci</em> à Paris. Il code de l'art génératif et explore la frontière entre technologie et esthétique.",
+  'contact': "📧 <em>ilias.bounabat@edu.devinci.fr</em><br>⌥ <em>github.com/ilias-ma</em><br>📍 Pôle Léonard de Vinci, Paris",
+  'favori': "Le projet favori d'Ilias sur ce site c'est le <em>Jour 8 : Erreur comme esthétique</em> — il a transformé les bugs et glitchs en langage visuel. Le chaos devient beauté.",
+  'code': "Tous les sketches sont en <em>p5.js</em>. Ilias explore : champs de vecteurs, bruit de Perlin, automates cellulaires, fractales, et simulations physiques. Chaque jour une nouvelle contrainte.",
+  'art': "L'art génératif c'est créer des règles qui créent de l'art. L'algorithme peint, l'artiste programme. <em>Le code est un pinceau.</em>",
+  'github': "Tu peux retrouver tous les projets sur <em>github.com/ilias-ma</em> — tous les sketches Genuary 2026 sont disponibles en open source.",
+  'bonjour': "Salut ! Je suis GEN_BOT, l'assistant de <em>Ilias Bounabat</em>. Pose-moi des questions sur les projets Genuary 2026 ⚡",
+  'salut': "Hey ! Bienvenue sur le site de <em>Ilias Bounabat</em>. 31 sketches génératifs en p5.js t'attendent !",
+  'projet': "31 projets, 31 jours ! Chaque sketch explore une technique différente : <em>grilles, particules, fractales, symétrie, bruit, réaction-diffusion</em>... Clique sur un projet pour voir !",
+};
+
+const fallbacks = [
+  "Je connais surtout les projets Genuary d'Ilias... Essaie de me demander son <em>projet favori</em>, son <em>contact</em>, ou ce qu'est <em>Genuary</em> !",
+  "Hm, ça dépasse mes connaissances. Je suis spécialisé dans le Genuary 2026 d'Ilias. Demande-moi son <em>contact</em> ou ses <em>techniques</em> !",
+  "Je ne suis pas une IA, juste un bot simple ! Mais je peux te parler de <em>p5.js</em>, de <em>Genuary</em>, ou d'<em>Ilias</em> 😄"
+];
+
+let fallbackIdx = 0;
+
+function getResponse(msg) {
+  const m = msg.toLowerCase();
+  for (const [key, val] of Object.entries(responses)) {
+    if (m.includes(key)) return val;
+  }
+  const r = fallbacks[fallbackIdx % fallbacks.length];
+  fallbackIdx++;
+  return r;
+}
+
+function addMessage(text, sender) {
+  const msgs = document.getElementById('chat-messages');
+  const div = document.createElement('div');
+  div.className = `msg ${sender}`;
+  div.innerHTML = `
+    <div class="msg-label">${sender === 'bot' ? 'GEN_BOT' : 'YOU'} // ${new Date().toLocaleTimeString('fr',{hour:'2-digit',minute:'2-digit'})}</div>
+    <div class="msg-bubble">${text}</div>
+  `;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function sendMessage() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  addMessage(msg, 'user');
+  input.value = '';
+  setTimeout(() => {
+    addMessage(getResponse(msg), 'bot');
+  }, 400);
+}
+
+function sendSuggestion(msg) {
+  addMessage(msg, 'user');
+  setTimeout(() => {
+    addMessage(getResponse(msg), 'bot');
+  }, 400);
+}
+
+let chatOpen = false;
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chatbox').classList.toggle('open', chatOpen);
+  document.getElementById('chat-toggle').textContent = chatOpen ? '✕' : '⌘';
+}
+</script>
+</body>
+</html>
